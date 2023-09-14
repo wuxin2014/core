@@ -1,0 +1,53 @@
+<script src="../../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div>{{ state.foo }}</div>
+</div>
+<script>
+  // defineComponent() 还有一种备用签名，旨在与组合式 API 和 渲染函数或 JSX 一起使用
+  // defineAsyncComponent
+  const Comp = Vue.defineComponent(
+    (props) => {
+      // 就像在 <script setup> 中一样使用组合式 API
+      const count = ref(0)
+
+      return () => {
+        // 渲染函数或 JSX
+        return h('div', count.value)
+      }
+    },
+    // 其他选项，例如声明 props 和 emits。
+    {
+      props: {
+        /* ... */
+      }
+    }
+  )
+  Vue.createApp({
+    setup() {
+      debugger
+      const state = { foo: 1, bar: 2 }
+      const reactiveState = Vue.reactive(state)
+      // toRaw拿到原始对象
+      console.log(Vue.toRaw(reactiveState) === state) // true
+      
+      
+      
+      return {
+        state,
+      }
+    }
+  }).mount('#demo')
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

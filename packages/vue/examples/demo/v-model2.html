@@ -1,0 +1,55 @@
+<script src="../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div id="search">
+    <h1>{{ name }}</h1>
+    <input v-model="name" />
+  </div>
+</div>
+<!-- App script -->
+<script>
+  debugger
+Vue.createApp({
+  setup() {
+    const name = Vue.ref('Hello World!')
+    return {
+      name
+    }
+  }
+}).mount('#demo')
+
+(function anonymous() {
+  const _Vue = Vue
+  const { createElementVNode: _createElementVNode } = _Vue
+
+  const _hoisted_1 = { id: "search" }
+  const _hoisted_2 = ["onUpdate:modelValue"]
+
+  return function render(_ctx, _cache) {
+    with (_ctx) {
+      const { toDisplayString: _toDisplayString, createElementVNode: _createElementVNode, vModelText: _vModelText, withDirectives: _withDirectives, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+
+      return (_openBlock(), _createElementBlock("div", _hoisted_1, [
+        _createElementVNode("h1", null, _toDisplayString(name), 1 /* TEXT */),
+        _withDirectives(_createElementVNode("input", {
+          "onUpdate:modelValue": $event => ((name) = $event)
+        }, null, 8 /* PROPS */, _hoisted_2), [
+          [_vModelText, name]
+        ])
+      ]))
+    }
+  }
+})
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

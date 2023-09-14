@@ -1,0 +1,83 @@
+<script src="../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div id="search">
+    <div>{{ name }}</div>
+    <div>styleText</div>
+    <div :style="{fontSize: fontSize}">styleText</div>
+    <div :class="{red: isRed}">classText</div>
+    <div :style="{fontSize: fontSize}" :class="{red: isRed}" :data="list">classText</div>
+    <div :style="{fontSize: fontSize}" :class="{red: isRed}" :data="list">{{ name }}</div>
+  </div>
+</div>
+<!-- App script -->
+<script>
+  debugger
+Vue.createApp({
+  data: () => ({
+    name: 'haha',
+    fontSize: '16px',
+    isRed: true,
+    list: []
+  })
+}).mount('#demo')
+
+// https://zhuanlan.zhihu.com/p/569504944
+(function anonymous() {
+  const _Vue = Vue
+  const { createElementVNode: _createElementVNode } = _Vue
+
+  const _hoisted_1 = { id: "search" }
+  const _hoisted_2 = /*#__PURE__*/_createElementVNode("div", null, "styleText", -1 /* HOISTED */)
+  const _hoisted_3 = ["data"]
+  const _hoisted_4 = ["data"]
+
+  return function render(_ctx, _cache) {
+    with (_ctx) {
+      const { toDisplayString: _toDisplayString, createElementVNode: _createElementVNode, normalizeStyle: _normalizeStyle, normalizeClass: _normalizeClass, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+      
+      // 多个节点没有父节点，就会创建Fragment
+      // Block 顶层父节点是createElementBlock
+      // createElementBlock(type,props,children,patchFlag,dynamicProps,shapeFlag)
+      // createVNode: Fragment, Text, Comment, Static, createBlock
+      // Block是一种特殊的vnode，它和普通vnode相比，多出一个额外的dynamicChildren属性，用来存储动态节点。
+      // 哪些节点会作为Block？模板中的根节点、带有v-for、v-if/v-else-if/v-else的节点会被作为Block。
+      // 你应该知道在Diff过程中，即使vnode没有发生变化，也会进行一次比较。而Block的出现减少了这种不必要的的比较，由于Block中的动态节点都会被收集到dynamicChildren中，所以Block间的patch可以直接比较dynamicChildren中的节点，减少了非动态节点之间的比较。
+
+
+      return (_openBlock(), _createElementBlock("div", _hoisted_1, [
+        _createElementVNode("div", null, _toDisplayString(name), 1 /* TEXT */),
+        _hoisted_2,
+        _createElementVNode("div", {
+          style: _normalizeStyle({fontSize: fontSize})
+        }, "styleText", 4 /* STYLE */),
+        _createElementVNode("div", {
+          class: _normalizeClass({red: isRed})
+        }, "classText", 2 /* CLASS */),
+        _createElementVNode("div", {
+          style: _normalizeStyle({fontSize: fontSize}),
+          class: _normalizeClass({red: isRed}),
+          data: list
+        }, "classText", 14 /* CLASS, STYLE, PROPS */, _hoisted_3),
+        _createElementVNode("div", {
+          style: _normalizeStyle({fontSize: fontSize}),
+          class: _normalizeClass({red: isRed}),
+          data: list
+        }, _toDisplayString(name), 15 /* TEXT, CLASS, STYLE, PROPS */, _hoisted_4)
+      ]))
+    }
+  }
+})
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

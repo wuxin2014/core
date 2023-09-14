@@ -1,0 +1,95 @@
+<script src="../../dist/vue.global.js"></script>
+<script type="text/x-template" id="custom-comp">
+  <div @click="handleClick">testEmit</div>
+</script>
+<script>
+  const CustomComp = {
+    template: '#custom-comp',
+    methods: {
+      handleClick() {
+        debugger
+        this.$emit('testEmit', 'result')
+      }
+    }
+  }
+  </script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div id="search">
+    <div @click="handleClick">styleText</div>
+    <custom-comp @test-emit="handleCallback" />
+  </div>
+</div>
+<!-- App script -->
+<script>
+  debugger
+Vue.createApp({
+  components: {
+    CustomComp
+  },
+  data: () => ({
+    name: 'haha',
+  }),
+  methods: {
+    handleClick() {
+      console.log('handleClick')
+    },
+    handleCallback() {
+      console.log('handleCallback===')
+    },
+  }
+}).mount('#demo')
+
+// (function anonymous() {
+//     const _Vue = Vue
+//     const { createElementVNode: _createElementVNode } = _Vue
+
+//     const _hoisted_1 = { id: "search" }
+//     const _hoisted_2 = ["onClick"]
+
+//     // 原生DOM事件注册，addEventListener
+//     return function render(_ctx, _cache) {
+//         with (_ctx) {
+//             const { createElementVNode: _createElementVNode, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+
+//             return (_openBlock(), _createElementBlock("div", _hoisted_1, [
+//                 _createElementVNode("div", { onClick: handleClick }, "styleText", 8 /* PROPS */, _hoisted_2)
+//             ]))
+//         }
+//     }
+// })
+
+
+(function anonymous() {
+  const _Vue = Vue
+  const { createVNode: _createVNode, createElementVNode: _createElementVNode } = _Vue
+
+  const _hoisted_1 = { id: "search" }
+  const _hoisted_2 = ["onClick"]
+
+  return function render(_ctx, _cache) {
+    with (_ctx) {
+      const { createElementVNode: _createElementVNode, resolveComponent: _resolveComponent, createVNode: _createVNode, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+
+      const _component_custom_comp = _resolveComponent("custom-comp")
+
+      return (_openBlock(), _createElementBlock("div", _hoisted_1, [
+        _createElementVNode("div", { onClick: handleClick }, "styleText", 8 /* PROPS */, _hoisted_2),
+        _createVNode(_component_custom_comp, { onTestEmit: handleCallback }, null, 8 /* PROPS */, ["onTestEmit"])
+      ]))
+    }
+  }
+})
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

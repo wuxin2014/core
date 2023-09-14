@@ -1,0 +1,45 @@
+<script src="../../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div @click="handleClick">{{ fooRef }}</div>
+</div>
+<script>
+  Vue.createApp({
+    setup() {
+      debugger
+      const state = Vue.reactive({
+        foo: 1,
+        bar: 2
+      })
+
+      // 双向 ref，会与源属性同步
+      const fooRef = Vue.toRef(state, 'foo')
+
+      // 更改该 ref 会更新源属性
+      fooRef.value++
+      console.log(state.foo) // 2
+
+      const handleClick = () => {
+        // 更改源属性也会更新该 ref
+        state.foo++
+      }
+      
+      return {
+        fooRef,
+        handleClick
+      }
+    }
+  }).mount('#demo')
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

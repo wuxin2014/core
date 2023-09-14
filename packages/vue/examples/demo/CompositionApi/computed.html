@@ -1,0 +1,35 @@
+<script src="../../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div @click="handleClick">{{ comValue }}</div>
+</div>
+<script>
+  Vue.createApp({
+    setup() {
+      debugger
+      const person = Vue.reactive({ name: '夏末', age: 19 })
+      const handleClick = () => {
+        person.age++
+      }
+      // 创建一个只读的计算属性 ref
+      const comValue = Vue.computed(() => { return `${person.name}-${person.age}` })
+      return {
+        person,
+        comValue,
+        handleClick
+      }
+    }
+  }).mount('#demo')
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

@@ -1,0 +1,46 @@
+<script src="../../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div @click="handleClick(person)">{{ person.name }} - {{ person.age }}</div>
+</div>
+<script>
+  Vue.createApp({
+    setup() {
+      debugger
+      const person = Vue.shallowReactive({
+        name: '夏末',
+        age: 19,
+        nested: {
+          bar: 2
+        }
+      })
+      const handleClick = (data) => {
+        // console.log('data===', data)
+        // 更改状态自身的属性是响应式的
+        person.age++
+      }
+
+      // ...但下层嵌套对象不会被转为响应式
+      Vue.isReactive(person.nested) // false
+
+      // 不是响应式的
+      person.nested.bar++
+      return {
+        person,
+        handleClick
+      }
+    }
+  }).mount('#demo')
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

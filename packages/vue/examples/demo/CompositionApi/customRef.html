@@ -1,0 +1,45 @@
+<script src="../../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <p>{{ text }}</p>
+  <input v-model="text" />
+</div>
+<script>
+  Vue.createApp({
+    setup() {
+      debugger
+      let timeout = null
+      let value = 'hello'
+      const text = Vue.customRef((track, trigger) => {
+        return {
+          get() {
+            track()
+            return value
+          },
+          set(newValue) {
+            clearTimeout(timeout)
+            timeout = setTimeout(() => {
+              value = newValue
+              trigger()
+            }, 1000)
+          }
+        }
+      })
+      return {
+        text
+      }
+    }
+  }).mount('#demo')
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

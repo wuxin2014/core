@@ -1,0 +1,70 @@
+<script src="../../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div>{{ state.foo }} - {{ count }}</div>
+</div>
+<script>
+  const useApi = () => {
+    const count = Vue.ref(0)
+    Vue.onBeforeMount(() => {
+      console.log('useHook==onBeforeMount===')
+    })
+    Vue.onMounted(() => {
+      console.log('useHook==onMounted===')
+    })
+    return {
+      count
+    }
+  }
+  Vue.createApp({
+    setup() {
+      debugger
+      const state = Vue.reactive({
+        foo: 1,
+        bar: 2
+      })
+
+      const { count } = useApi()
+
+      Vue.onBeforeMount(() => {
+        console.log('onBeforeMount===')
+      })
+      Vue.onMounted(() => {
+        console.log('onMounted===')
+      })
+
+      Vue.onBeforeUpdate(() => {
+        console.log('onBeforeUpdate===')
+      })
+
+      Vue.onUpdated(() => {
+        console.log('onUpdated===')
+      })
+
+      Vue.onBeforeUnmount(() => {
+        console.log('onBeforeUnmount===')
+      })
+
+      Vue.onUnmounted(() => {
+        console.log('onUnmounted===')
+      })
+      
+      return {
+        state,
+        count
+      }
+    }
+  }).mount('#demo')
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

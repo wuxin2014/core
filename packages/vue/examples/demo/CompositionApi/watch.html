@@ -1,0 +1,41 @@
+<script src="../../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div @click="handleClick">{{ perso.age }}</div>
+</div>
+<script>
+  Vue.createApp({
+    setup() {
+      debugger
+      const person = Vue.reactive({ name: '夏末', age: 19 })
+      const handleClick = () => {
+        person.age++
+      }
+      // watchSource: 一个函数，返回一个值, 一个 ref, 一个响应式对象
+      watch(() => person.age, (newVal, oldVal) => {
+        console.log('1==newVal, oldVal==', newVal, oldVal)
+      })
+
+      watch(person, (newVal, oldVal) => {
+        console.log('2==newVal, oldVal==', newVal, oldVal)
+      }, { deep: true })
+
+      return {
+        person,
+        handleClick
+      }
+    }
+  }).mount('#demo')
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>
