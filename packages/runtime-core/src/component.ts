@@ -495,14 +495,14 @@ export function createComponentInstance(
     uid: uid++,
     vnode,
     type,
-    parent,
+    parent, // 父亲实例
     appContext,
     root: null!, // to be immediately set
     next: null,
     subTree: null!, // will be set synchronously right after creation
     effect: null!,
     update: null!, // will be set synchronously right after creation
-    scope: new EffectScope(true /* detached */),
+    scope: new EffectScope(true /* detached */), // todo new EffectScope的作用
     render: null,
     proxy: null,
     exposed: null,
@@ -513,8 +513,8 @@ export function createComponentInstance(
     renderCache: [],
 
     // local resolved assets
-    components: null,
-    directives: null,
+    components: null, // 组件资源
+    directives: null, // 指令资源
 
     // resolved props and emits options
     propsOptions: normalizePropsOptions(type, appContext),
@@ -574,8 +574,8 @@ export function createComponentInstance(
   } else {
     instance.ctx = { _: instance }
   }
-  instance.root = parent ? parent.root : instance
-  instance.emit = emit.bind(null, instance)
+  instance.root = parent ? parent.root : instance // parent.root 在哪里赋值的
+  instance.emit = emit.bind(null, instance) // 实例上的emit
 
   // apply custom element special handling
   if (vnode.ce) {
@@ -629,12 +629,12 @@ if (__SSR__) {
 }
 
 export const setCurrentInstance = (instance: ComponentInternalInstance) => {
-  internalSetCurrentInstance(instance)
-  instance.scope.on()
+  internalSetCurrentInstance(instance) // currentInstance = instance
+  instance.scope.on() // 注意instance.scope.on()的调用
 }
 
 export const unsetCurrentInstance = () => {
-  currentInstance && currentInstance.scope.off()
+  currentInstance && currentInstance.scope.off() // 注意instance.scope.on()的调用
   internalSetCurrentInstance(null)
 }
 
@@ -677,6 +677,7 @@ function setupStatefulComponent(
   instance: ComponentInternalInstance,
   isSSR: boolean
 ) {
+  // 获取instance.type
   const Component = instance.type as ComponentOptions
 
   if (__DEV__) {
@@ -707,13 +708,14 @@ function setupStatefulComponent(
   instance.accessCache = Object.create(null)
   // 1. create public instance / render proxy
   // also mark it raw so it's never observed
-  instance.proxy = markRaw(new Proxy(instance.ctx, PublicInstanceProxyHandlers))
+  instance.proxy = markRaw(new Proxy(instance.ctx, PublicInstanceProxyHandlers)) // 注意instance.proxy赋值
   if (__DEV__) {
     exposePropsOnRenderContext(instance)
   }
   // 2. call setup()
   const { setup } = Component
   if (setup) {
+    // setup是函数，setup.length 代表参数个数
     const setupContext = (instance.setupContext =
       setup.length > 1 ? createSetupContext(instance) : null)
 
@@ -723,7 +725,7 @@ function setupStatefulComponent(
       setup,
       instance,
       ErrorCodes.SETUP_FUNCTION,
-      [__DEV__ ? shallowReadonly(instance.props) : instance.props, setupContext]
+      [__DEV__ ? shallowReadonly(instance.props) : instance.props, setupContext] // setup函数的参数,setup(props, context)
     )
     resetTracking()
     unsetCurrentInstance()
@@ -792,7 +794,7 @@ export function handleSetupResult(
     if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
       instance.devtoolsRawSetupState = setupResult
     }
-    instance.setupState = proxyRefs(setupResult)
+    instance.setupState = proxyRefs(setupResult) // todo 注意instance.setupState的赋值 且用了proxyRefs进行了处理
     if (__DEV__) {
       exposeSetupStateOnRenderContext(instance)
     }
@@ -817,12 +819,13 @@ let installWithProxy: (i: ComponentInternalInstance) => void
 /**
  * For runtime-dom to register the compiler.
  * Note the exported method uses any to avoid d.ts relying on the compiler types.
+ * registerRuntimeCompiler 什么时候调用了
  */
 export function registerRuntimeCompiler(_compile: any) {
   compile = _compile
   installWithProxy = i => {
     if (i.render!._rc) {
-      i.withProxy = new Proxy(i.ctx, RuntimeCompiledPublicInstanceProxyHandlers)
+      i.withProxy = new Proxy(i.ctx, RuntimeCompiledPublicInstanceProxyHandlers) // 注意instance.withProxy的赋值
     }
   }
 }
@@ -835,6 +838,7 @@ export function finishComponentSetup(
   isSSR: boolean,
   skipOptions?: boolean
 ) {
+  debugger
   const Component = instance.type as ComponentOptions
 
   if (__COMPAT__) {
@@ -889,7 +893,7 @@ export function finishComponentSetup(
       }
     }
 
-    instance.render = (Component.render || NOOP) as InternalRenderFunction
+    instance.render = (Component.render || NOOP) as InternalRenderFunction // instance.render的赋值
 
     // for runtime-compiled render functions using `with` blocks, the render
     // proxy used needs a different `has` handler which is more performant and
@@ -902,7 +906,7 @@ export function finishComponentSetup(
   // support for 2.x options
   if (__FEATURE_OPTIONS_API__ && !(__COMPAT__ && skipOptions)) {
     setCurrentInstance(instance)
-    pauseTracking()
+    pauseTracking() // 暂停依赖收集
     try {
       applyOptions(instance)
     } finally {
@@ -1022,6 +1026,7 @@ export function createSetupContext(
       expose
     })
   } else {
+    // createSetupContext函数返回了一个对象
     return {
       get attrs() {
         return getAttrsProxy(instance)

@@ -618,7 +618,7 @@ export function applyOptions(instance: ComponentInternalInstance) {
   // call beforeCreate first before accessing other options since
   // the hook may mutate resolved options (#2791)
   if (options.beforeCreate) {
-    callHook(options.beforeCreate, instance, LifecycleHooks.BEFORE_CREATE)
+    callHook(options.beforeCreate, instance, LifecycleHooks.BEFORE_CREATE) // 生命周期beforeCreate的调用
   }
 
   const {
@@ -725,7 +725,7 @@ export function applyOptions(instance: ComponentInternalInstance) {
     if (!isObject(data)) {
       __DEV__ && warn(`data() should return an object.`)
     } else {
-      instance.data = reactive(data)
+      instance.data = reactive(data) // instance.data的赋值
       if (__DEV__) {
         for (const key in data) {
           checkDuplicateProperties!(OptionTypes.DATA, key)
@@ -798,6 +798,7 @@ export function applyOptions(instance: ComponentInternalInstance) {
     })
   }
 
+  // 生命周期created的调用
   if (created) {
     callHook(created, instance, LifecycleHooks.CREATED)
   }
@@ -813,6 +814,7 @@ export function applyOptions(instance: ComponentInternalInstance) {
     }
   }
 
+  // todo registerLifecycleHook的作用是什么
   registerLifecycleHook(onBeforeMount, beforeMount)
   registerLifecycleHook(onMounted, mounted)
   registerLifecycleHook(onBeforeUpdate, beforeUpdate)
@@ -922,6 +924,7 @@ function callHook(
   instance: ComponentInternalInstance,
   type: LifecycleHooks
 ) {
+  // hook函数 bind了instance.proxy
   callWithAsyncErrorHandling(
     isArray(hook)
       ? hook.map(h => h.bind(instance.proxy!))

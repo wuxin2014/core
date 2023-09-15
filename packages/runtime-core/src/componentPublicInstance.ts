@@ -296,6 +296,7 @@ export const isReservedPrefix = (key: string) => key === '_' || key === '$'
 const hasSetupBinding = (state: Data, key: string) =>
   state !== EMPTY_OBJ && !state.__isScriptSetup && hasOwn(state, key)
 
+// get, set, has, defineProperty
 export const PublicInstanceProxyHandlers: ProxyHandler<any> = {
   get({ _: instance }: ComponentRenderContext, key: string) {
     const { ctx, setupState, data, props, accessCache, type, appContext } =
@@ -348,7 +349,7 @@ export const PublicInstanceProxyHandlers: ProxyHandler<any> = {
         accessCache![key] = AccessTypes.OTHER
       }
     }
-
+    // 公用属性
     const publicGetter = publicPropertiesMap[key]
     let cssModule, globalProperties
     // public $xxx properties

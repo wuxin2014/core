@@ -205,12 +205,13 @@ function doWatch(
   let forceTrigger = false
   let isMultiSource = false
 
+  // source: ref, reactive, 数组， 函数
   if (isRef(source)) {
     getter = () => source.value
     forceTrigger = isShallow(source)
   } else if (isReactive(source)) {
     getter = () => source
-    deep = true
+    deep = true // reactive类型设置了deep为true
   } else if (isArray(source)) {
     isMultiSource = true
     forceTrigger = source.some(s => isReactive(s) || isShallow(s))
@@ -361,6 +362,7 @@ function doWatch(
     scheduler = () => queueJob(job)
   }
 
+  // new一个ReactiveEffect类
   const effect = new ReactiveEffect(getter, scheduler)
 
   if (__DEV__) {

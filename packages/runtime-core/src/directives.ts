@@ -105,6 +105,7 @@ export function withDirectives<T extends VNode>(
       if (dir.deep) {
         traverse(value)
       }
+      // bindings => vnode.dirs 数组形式
       bindings.push({
         dir,
         instance,

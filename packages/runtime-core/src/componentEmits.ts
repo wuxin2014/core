@@ -70,6 +70,7 @@ export type EmitFn<
       }[Event]
     >
 
+// $emit('eventName', {})
 export function emit(
   instance: ComponentInternalInstance,
   event: string,

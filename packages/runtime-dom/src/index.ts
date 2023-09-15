@@ -62,6 +62,7 @@ export const hydrate = ((...args) => {
   ensureHydrationRenderer().hydrate(...args)
 }) as RootHydrateFunction
 
+// todo createApp的入口
 export const createApp = ((...args) => {
   const app = ensureRenderer().createApp(...args)
 
@@ -71,6 +72,7 @@ export const createApp = ((...args) => {
   }
 
   const { mount } = app
+  // 定义新的mount
   app.mount = (containerOrSelector: Element | ShadowRoot | string): any => {
     const container = normalizeContainer(containerOrSelector)
     if (!container) return
@@ -99,6 +101,7 @@ export const createApp = ((...args) => {
 
     // clear content before mounting
     container.innerHTML = ''
+    // 这里执行mount
     const proxy = mount(container, false, container instanceof SVGElement)
     if (container instanceof Element) {
       container.removeAttribute('v-cloak')

@@ -503,7 +503,7 @@ function baseCreateRenderer(
       n2.el = n1.el
     }
   }
-
+  // 这个待看
   const mountStaticNode = (
     n2: VNode,
     container: RendererElement,
@@ -584,7 +584,7 @@ function baseCreateRenderer(
     slotScopeIds: string[] | null,
     optimized: boolean
   ) => {
-    isSVG = isSVG || n2.type === 'svg'
+    isSVG = isSVG || (n2.type as string) === 'svg'
     if (n1 == null) {
       mountElement(
         n2,
@@ -633,7 +633,7 @@ function baseCreateRenderer(
     // mount children first, since some props may rely on child content
     // being already rendered, e.g. `<select value>`
     if (shapeFlag & ShapeFlags.TEXT_CHILDREN) {
-      hostSetElementText(el, vnode.children as string)
+      hostSetElementText(el, vnode.children as string) // setTextContent
     } else if (shapeFlag & ShapeFlags.ARRAY_CHILDREN) {
       mountChildren(
         vnode.children as VNodeArrayChildren,
@@ -1194,6 +1194,7 @@ function baseCreateRenderer(
     // mounting
     const compatMountInstance =
       __COMPAT__ && initialVNode.isCompatRoot && initialVNode.component
+    // 创建组件实例 
     const instance: ComponentInternalInstance =
       compatMountInstance ||
       (initialVNode.component = createComponentInstance(
@@ -1300,6 +1301,7 @@ function baseCreateRenderer(
     isSVG,
     optimized
   ) => {
+    // todo componentUpdateFn
     const componentUpdateFn = () => {
       if (!instance.isMounted) {
         let vnodeHook: VNodeHook | null | undefined
@@ -1367,6 +1369,7 @@ function baseCreateRenderer(
           if (__DEV__) {
             startMeasure(instance, `render`)
           }
+          // instance.subTree的赋值,得到VNode
           const subTree = (instance.subTree = renderComponentRoot(instance))
           if (__DEV__) {
             endMeasure(instance, `render`)
@@ -1544,12 +1547,14 @@ function baseCreateRenderer(
     }
 
     // create reactive effect for rendering
+    // instance.effect的赋值
     const effect = (instance.effect = new ReactiveEffect(
       componentUpdateFn,
       () => queueJob(update),
       instance.scope // track it in component's effect scope
     ))
 
+    // instance.update的赋值
     const update: SchedulerJob = (instance.update = () => effect.run())
     update.id = instance.uid
     // allowRecurse
@@ -2316,13 +2321,16 @@ function baseCreateRenderer(
     }
     return hostNextSibling((vnode.anchor || vnode.el)!)
   }
-
+  
+  // todo render函数
   const render: RootRenderFunction = (vnode, container, isSVG) => {
+    debugger
     if (vnode == null) {
       if (container._vnode) {
         unmount(container._vnode, null, null, true)
       }
     } else {
+      // patch(oldvnode, newVnode, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized)
       patch(container._vnode || null, vnode, container, null, null, null, isSVG)
     }
     flushPreFlushCbs()

@@ -422,7 +422,7 @@ function createBaseVNode(
   children: unknown = null,
   patchFlag = 0,
   dynamicProps: string[] | null = null,
-  shapeFlag = type === Fragment ? 0 : ShapeFlags.ELEMENT,
+  shapeFlag = type === Fragment ? 0 : ShapeFlags.ELEMENT, // shapeFlag => 子节点的标识
   isBlockNode = false,
   needFullChildrenNormalization = false
 ) {
@@ -435,7 +435,7 @@ function createBaseVNode(
     ref: props && normalizeRef(props),
     scopeId: currentScopeId,
     slotScopeIds: null,
-    children,
+    children, // 子节点VNode
     component: null,
     suspense: null,
     ssContent: null,
@@ -450,7 +450,7 @@ function createBaseVNode(
     shapeFlag,
     patchFlag,
     dynamicProps,
-    dynamicChildren: null,
+    dynamicChildren: null, // 动态子节点VNode
     appContext: null,
     ctx: currentRenderingInstance
   } as VNode
@@ -681,7 +681,7 @@ export function cloneVNode<T, U>(
   if (__COMPAT__) {
     defineLegacyVNodeProperties(cloned as VNode)
   }
-  return cloned
+  return cloned as any
 }
 
 /**
@@ -698,6 +698,7 @@ function deepCloneVNode(vnode: VNode): VNode {
 
 /**
  * @private
+ * 文本VNode => createVNode
  */
 export function createTextVNode(text: string = ' ', flag: number = 0): VNode {
   return createVNode(Text, null, text, flag)
@@ -705,6 +706,7 @@ export function createTextVNode(text: string = ' ', flag: number = 0): VNode {
 
 /**
  * @private
+ * StaticVNode
  */
 export function createStaticVNode(
   content: string,
@@ -719,6 +721,7 @@ export function createStaticVNode(
 
 /**
  * @private
+ * CommentVNode
  */
 export function createCommentVNode(
   text: string = '',
