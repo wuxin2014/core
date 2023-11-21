@@ -51,3 +51,9 @@ Thank you to all the people who already contributed to Vue!
 [MIT](https://opensource.org/licenses/MIT)
 
 Copyright (c) 2013-present, Yuxi (Evan) You
+
+
+#### 调试源码运行项目
+npm install -g pnpm
+pnpm install
+pnpm dev
