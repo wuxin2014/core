@@ -1779,6 +1779,7 @@ function baseCreateRenderer(
       const n2 = (c2[i] = optimized
         ? cloneIfMounted(c2[i] as VNode)
         : normalizeVNode(c2[i]))
+      // 相同节点元素
       if (isSameVNodeType(n1, n2)) {
         patch(
           n1,
@@ -1805,6 +1806,7 @@ function baseCreateRenderer(
       const n2 = (c2[e2] = optimized
         ? cloneIfMounted(c2[e2] as VNode)
         : normalizeVNode(c2[e2]))
+      // 相同节点元素
       if (isSameVNodeType(n1, n2)) {
         patch(
           n1,
@@ -1824,7 +1826,7 @@ function baseCreateRenderer(
       e2--
     }
 
-    // 3. common sequence + mount
+    // 3. common sequence + mount 新增节点情况
     // (a b)
     // (a b) c
     // i = 2, e1 = 1, e2 = 2
@@ -1834,6 +1836,7 @@ function baseCreateRenderer(
     if (i > e1) {
       if (i <= e2) {
         const nextPos = e2 + 1
+        // 参考物
         const anchor = nextPos < l2 ? (c2[nextPos] as VNode).el : parentAnchor
         while (i <= e2) {
           patch(
@@ -1854,7 +1857,7 @@ function baseCreateRenderer(
       }
     }
 
-    // 4. common sequence + unmount
+    // 4. common sequence + unmount 删除节点情况
     // (a b) c
     // (a b)
     // i = 2, e1 = 2, e2 = 1
@@ -1868,7 +1871,7 @@ function baseCreateRenderer(
       }
     }
 
-    // 5. unknown sequence
+    // 5. unknown sequence 未知子序列
     // [i ... e1 + 1]: a b [c d e] f g
     // [i ... e2 + 1]: a b [e d c h] f g
     // i = 2, e1 = 4, e2 = 5
@@ -1878,10 +1881,12 @@ function baseCreateRenderer(
 
       // 5.1 build key:index map for newChildren
       const keyToNewIndexMap: Map<string | number | symbol, number> = new Map()
+      // 未知子序列，先循环新节点，获取新子序列索引图
       for (i = s2; i <= e2; i++) {
         const nextChild = (c2[i] = optimized
           ? cloneIfMounted(c2[i] as VNode)
           : normalizeVNode(c2[i]))
+        // 有key属性的情况
         if (nextChild.key != null) {
           if (__DEV__ && keyToNewIndexMap.has(nextChild.key)) {
             warn(
@@ -1895,21 +1900,23 @@ function baseCreateRenderer(
       }
 
       // 5.2 loop through old children left to be patched and try to patch
-      // matching nodes & remove nodes that are no longer present
+      // matching nodes & remove nodes that are no longer present 更新和移除旧节点
       let j
-      let patched = 0
-      const toBePatched = e2 - s2 + 1
-      let moved = false
-      // used to track whether any node has moved
+      let patched = 0 // 新子序列已更新节点的数量
+      const toBePatched = e2 - s2 + 1 // 新子序列待更新节点的数量，等于新子序列的长度
+      let moved = false // 是否存在要移动的节点
+      // used to track whether any node has moved 用于跟踪判断是否有节点移动
       let maxNewIndexSoFar = 0
       // works as Map<newIndex, oldIndex>
       // Note that oldIndex is offset by +1
       // and oldIndex = 0 is a special value indicating the new node has
       // no corresponding old node.
       // used for determining longest stable subsequence
+      // 这个数组存储新子序列中的元素在旧子序列节点的索引，用于确定最长递增子序列
       const newIndexToOldIndexMap = new Array(toBePatched)
       for (i = 0; i < toBePatched; i++) newIndexToOldIndexMap[i] = 0
 
+      // 正序遍历旧子序列，找到匹配的节点更新，删除不在新子序列中的节点，判断是否有移动节点
       for (i = s1; i <= e1; i++) {
         const prevChild = c1[i]
         if (patched >= toBePatched) {
@@ -1956,13 +1963,14 @@ function baseCreateRenderer(
         }
       }
 
-      // 5.3 move and mount
+      // 5.3 move and mount 移动和挂载新节点
       // generate longest stable subsequence only when nodes have moved
       const increasingNewIndexSequence = moved
         ? getSequence(newIndexToOldIndexMap)
         : EMPTY_ARR
       j = increasingNewIndexSequence.length - 1
       // looping backwards so that we can use last patched node as anchor
+      // 倒序遍历新子序列
       for (i = toBePatched - 1; i >= 0; i--) {
         const nextIndex = s2 + i
         const nextChild = c2[nextIndex] as VNode
