@@ -245,13 +245,16 @@ export function resetTracking() {
  * @param key - Identifier of the reactive property to track.
  */
 export function track(target: object, type: TrackOpTypes, key: unknown) {
+  // 初步注意targetMap, depsMap
   if (shouldTrack && activeEffect) {
     let depsMap = targetMap.get(target)
     if (!depsMap) {
+      // 每个 target 对应一个 depsMap
       targetMap.set(target, (depsMap = new Map()))
     }
     let dep = depsMap.get(key)
     if (!dep) {
+      // 每个 key 对应一个 dep 集合
       depsMap.set(key, (dep = createDep()))
     }
 
@@ -279,7 +282,9 @@ export function trackEffects(
   }
 
   if (shouldTrack) {
+    // 收集当前激活的 effect 作为依赖
     dep.add(activeEffect!)
+    // 当前激活的 effect 收集 dep 集合作为依赖
     activeEffect!.deps.push(dep)
     if (__DEV__ && activeEffect!.onTrack) {
       activeEffect!.onTrack(

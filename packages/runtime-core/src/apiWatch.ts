@@ -205,7 +205,7 @@ function doWatch(
   let forceTrigger = false
   let isMultiSource = false
 
-  // source: ref, reactive, 数组， 函数
+  // source: 可以是ref, reactive, 数组， 函数
   if (isRef(source)) {
     getter = () => source.value
     forceTrigger = isShallow(source)
@@ -228,6 +228,7 @@ function doWatch(
         }
       })
   } else if (isFunction(source)) {
+    // source是函数，再判断cb是否存在
     if (cb) {
       // getter with cb
       getter = () =>
@@ -362,7 +363,7 @@ function doWatch(
     scheduler = () => queueJob(job)
   }
 
-  // new一个ReactiveEffect类
+  // new一个ReactiveEffect类，注意getter的入参
   const effect = new ReactiveEffect(getter, scheduler)
 
   if (__DEV__) {

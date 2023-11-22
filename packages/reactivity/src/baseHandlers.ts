@@ -52,6 +52,7 @@ function createArrayInstrumentations() {
   // values
   ;(['includes', 'indexOf', 'lastIndexOf'] as const).forEach(key => {
     instrumentations[key] = function (this: unknown[], ...args: unknown[]) {
+      // toRaw 可以把响应式对象转成原始数据
       const arr = toRaw(this) as any
       for (let i = 0, l = this.length; i < l; i++) {
         track(arr, TrackOpTypes.GET, i + '')
@@ -59,7 +60,7 @@ function createArrayInstrumentations() {
       // we run the method using the original args first (which may be reactive)
       const res = arr[key](...args)
       if (res === -1 || res === false) {
-        // if that didn't work, run it again using raw values.
+        // if that didn't work, run it again using raw values. 如果失败，再尝试把参数转成原始数据
         return arr[key](...args.map(toRaw))
       } else {
         return res

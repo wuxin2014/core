@@ -147,7 +147,7 @@ class RefImpl<T> {
   }
 
   get value() {
-    trackRefValue(this)
+    trackRefValue(this) // 跟踪
     return this._value
   }
 
@@ -155,10 +155,11 @@ class RefImpl<T> {
     const useDirectValue =
       this.__v_isShallow || isShallow(newVal) || isReadonly(newVal)
     newVal = useDirectValue ? newVal : toRaw(newVal)
+    // 比较两个值是否有变动
     if (hasChanged(newVal, this._rawValue)) {
       this._rawValue = newVal
       this._value = useDirectValue ? newVal : toReactive(newVal)
-      triggerRefValue(this, newVal)
+      triggerRefValue(this, newVal) // 触发
     }
   }
 }
@@ -223,9 +224,9 @@ export function unref<T>(ref: MaybeRef<T>): T {
  *
  * @example
  * ```js
- * toValue(1) // 1
- * toValue(ref(1)) // 1
- * toValue(() => 1) // 1
+ * toValue(1) // 1 非函数值 toValue
+ * toValue(ref(1)) // 1 ref值 toValue
+ * toValue(() => 1) // 1 函数 toValue
  * ```
  *
  * @param source - A getter, an existing ref, or a non-function value.
@@ -432,6 +433,7 @@ export function toRef(
   key?: string,
   defaultValue?: unknown
 ): Ref {
+  // toRef函数的source参数可以是 ref, 函数，响应式对象，非函数值
   if (isRef(source)) {
     return source
   } else if (isFunction(source)) {
@@ -443,6 +445,7 @@ export function toRef(
   }
 }
 
+// 属性值变成ref
 function propertyToRef(
   source: Record<string, any>,
   key: string,

@@ -41,6 +41,7 @@ export class ComputedRefImpl<T> {
     isReadonly: boolean,
     isSSR: boolean
   ) {
+    // 创建一个副作用对象
     this.effect = new ReactiveEffect(getter, () => {
       if (!this._dirty) {
         this._dirty = true
@@ -52,6 +53,7 @@ export class ComputedRefImpl<T> {
     this[ReactiveFlags.IS_READONLY] = isReadonly
   }
 
+  // 取值时
   get value() {
     // the computed ref may get wrapped by other proxies e.g. readonly() #3376
     const self = toRaw(this)
@@ -63,6 +65,7 @@ export class ComputedRefImpl<T> {
     return self._value
   }
 
+  // 设值时
   set value(newValue: T) {
     this._setter(newValue)
   }
