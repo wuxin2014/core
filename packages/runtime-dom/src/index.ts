@@ -62,8 +62,9 @@ export const hydrate = ((...args) => {
   ensureHydrationRenderer().hydrate(...args)
 }) as RootHydrateFunction
 
-// todo createApp的入口
+// todo createApp的入口, 函数前面的括号，让人误解，闹了个乌龙
 export const createApp = ((...args) => {
+  debugger
   const app = ensureRenderer().createApp(...args)
 
   if (__DEV__) {
@@ -72,7 +73,7 @@ export const createApp = ((...args) => {
   }
 
   const { mount } = app
-  // 定义新的mount
+  // 重新定义了mount函数
   app.mount = (containerOrSelector: Element | ShadowRoot | string): any => {
     const container = normalizeContainer(containerOrSelector)
     if (!container) return

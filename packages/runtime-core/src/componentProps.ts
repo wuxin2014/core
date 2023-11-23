@@ -215,7 +215,7 @@ export function initProps(
 
   if (isStateful) {
     // stateful
-    instance.props = isSSR ? props : shallowReactive(props)
+    instance.props = isSSR ? props : shallowReactive(props) // 注意instance.props的赋值
   } else {
     if (!instance.type.props) {
       // functional w/ optional props, props === attrs

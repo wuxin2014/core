@@ -1222,6 +1222,7 @@ function baseCreateRenderer(
       if (__DEV__) {
         startMeasure(instance, `init`)
       }
+      // 设置组件实例
       setupComponent(instance)
       if (__DEV__) {
         endMeasure(instance, `init`)
@@ -1241,7 +1242,7 @@ function baseCreateRenderer(
       }
       return
     }
-
+    // 渲染副作用
     setupRenderEffect(
       instance,
       initialVNode,
@@ -1301,7 +1302,7 @@ function baseCreateRenderer(
     isSVG,
     optimized
   ) => {
-    // todo componentUpdateFn
+    // 定义组件更新函数
     const componentUpdateFn = () => {
       if (!instance.isMounted) {
         let vnodeHook: VNodeHook | null | undefined
@@ -1547,7 +1548,7 @@ function baseCreateRenderer(
     }
 
     // create reactive effect for rendering
-    // instance.effect的赋值
+    // 创建响应式副作用对象， 给instance.effect的赋值
     const effect = (instance.effect = new ReactiveEffect(
       componentUpdateFn,
       () => queueJob(update),
@@ -1570,7 +1571,7 @@ function baseCreateRenderer(
         : void 0
       update.ownerInstance = instance
     }
-
+    // 首次主动执行一次update => effect.run()
     update()
   }
 

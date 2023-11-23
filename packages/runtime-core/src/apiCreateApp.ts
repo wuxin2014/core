@@ -209,7 +209,7 @@ export function createAppAPI<HostElement>(
       __DEV__ && warn(`root props passed to app.mount() must be an object.`)
       rootProps = null
     }
-
+    // 1. 应用上下文对象
     const context = createAppContext()
 
     // TODO remove in 3.4
@@ -330,10 +330,11 @@ export function createAppAPI<HostElement>(
                 ` you need to unmount the previous app by calling \`app.unmount()\` first.`
             )
           }
+          // 2. 根据根组件创建vnode对象
           const vnode = createVNode(rootComponent, rootProps)
           // store app context on the root VNode.
           // this will be set on the root instance on initial mount.
-          vnode.appContext = context
+          vnode.appContext = context // vnode的appContext 指向 应用上下文对象
 
           // HMR root reload
           if (__DEV__) {

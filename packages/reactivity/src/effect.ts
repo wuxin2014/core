@@ -84,9 +84,11 @@ export class ReactiveEffect<T = any> {
   }
 
   run() {
+    // 如果当前 ReactiveEffect 对象不处于活动状态，直接返回 fn 的执行结果
     if (!this.active) {
       return this.fn()
     }
+    // 寻找当前 ReactiveEffect 对象的最顶层的父级作用域
     let parent: ReactiveEffect | undefined = activeEffect
     let lastShouldTrack = shouldTrack
     while (parent) {
@@ -96,17 +98,22 @@ export class ReactiveEffect<T = any> {
       parent = parent.parent
     }
     try {
+      // 记录父级作用域为当前活动的 ReactiveEffect 对象
       this.parent = activeEffect
+      // 将当前活动的 ReactiveEffect 对象设置为 “自己”
       activeEffect = this
       shouldTrack = true
-
+      // effectTrackDepth 用于标识当前的 effect 调用栈的深度，执行一次 effect 就会将 effectTrackDepth 加 1
       trackOpBit = 1 << ++effectTrackDepth
 
       if (effectTrackDepth <= maxMarkerBits) {
+        // 初始依赖追踪标记
         initDepMarkers(this)
       } else {
+        // 清除依赖追踪标记
         cleanupEffect(this)
       }
+      // 返回副作用函数执行结果
       return this.fn()
     } finally {
       if (effectTrackDepth <= maxMarkerBits) {
@@ -184,7 +191,7 @@ export function effect<T = any>(
   if ((fn as ReactiveEffectRunner).effect instanceof ReactiveEffect) {
     fn = (fn as ReactiveEffectRunner).effect.fn
   }
-
+  // 创建一个响应式副作用域函数
   const _effect = new ReactiveEffect(fn)
   if (options) {
     extend(_effect, options)

@@ -481,6 +481,7 @@ const emptyAppContext = createAppContext()
 
 let uid = 0
 
+// 根据vnode创建组件实例对象
 export function createComponentInstance(
   vnode: VNode,
   parent: ComponentInternalInstance | null,
@@ -488,21 +489,23 @@ export function createComponentInstance(
 ) {
   const type = vnode.type as ConcreteComponent
   // inherit parent app context - or - if root, adopt from root vnode
+  // 组件上下文
   const appContext =
     (parent ? parent.appContext : vnode.appContext) || emptyAppContext
 
+  // 组件实例对象
   const instance: ComponentInternalInstance = {
     uid: uid++,
-    vnode,
+    vnode, // 组件vnode
     type,
-    parent, // 父亲实例
+    parent, // 父组件实例
     appContext,
     root: null!, // to be immediately set
     next: null,
     subTree: null!, // will be set synchronously right after creation
     effect: null!,
     update: null!, // will be set synchronously right after creation
-    scope: new EffectScope(true /* detached */), // todo new EffectScope的作用
+    scope: new EffectScope(true /* detached */), // new EffectScope的作用
     render: null,
     proxy: null,
     exposed: null,
@@ -719,8 +722,9 @@ function setupStatefulComponent(
     const setupContext = (instance.setupContext =
       setup.length > 1 ? createSetupContext(instance) : null)
 
+    // setup函数执行之前先 setCurrentInstance，pauseTracking
     setCurrentInstance(instance)
-    pauseTracking()
+    pauseTracking() 
     const setupResult = callWithErrorHandling(
       setup,
       instance,
@@ -729,6 +733,7 @@ function setupStatefulComponent(
     )
     resetTracking()
     unsetCurrentInstance()
+    // setup函数执行完毕后 resetTracking， unsetCurrentInstance
 
     if (isPromise(setupResult)) {
       setupResult.then(unsetCurrentInstance, unsetCurrentInstance)
@@ -794,7 +799,7 @@ export function handleSetupResult(
     if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
       instance.devtoolsRawSetupState = setupResult
     }
-    instance.setupState = proxyRefs(setupResult) // todo 注意instance.setupState的赋值 且用了proxyRefs进行了处理
+    instance.setupState = proxyRefs(setupResult) // 注意instance.setupState的赋值 且用了proxyRefs进行了处理
     if (__DEV__) {
       exposeSetupStateOnRenderContext(instance)
     }
@@ -886,6 +891,7 @@ export function finishComponentSetup(
             extend(finalCompilerOptions.compatConfig, Component.compatConfig)
           }
         }
+        // 编译模板生成render函数
         Component.render = compile(template, finalCompilerOptions)
         if (__DEV__) {
           endMeasure(instance, `compile`)
@@ -898,12 +904,13 @@ export function finishComponentSetup(
     // for runtime-compiled render functions using `with` blocks, the render
     // proxy used needs a different `has` handler which is more performant and
     // also only allows a whitelist of globals to fallthrough.
+    // 注意installWithProxy
     if (installWithProxy) {
       installWithProxy(instance)
     }
   }
 
-  // support for 2.x options
+  // support for 2.x options 支持vue2版本的Options API
   if (__FEATURE_OPTIONS_API__ && !(__COMPAT__ && skipOptions)) {
     setCurrentInstance(instance)
     pauseTracking() // 暂停依赖收集

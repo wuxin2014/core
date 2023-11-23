@@ -1,0 +1,36 @@
+<script src="../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div id="search">
+    <div>{{ obj.count }}</div>
+  </div>
+</div>
+<!-- App script -->
+<script>
+Vue.createApp({
+  setup() {
+    const obj = Vue.reactive({count: 1})
+    debugger
+    const runner = Vue.effect(() => {
+      console.log(obj.count)
+    })
+    
+    obj.count++
+    return {
+      obj
+    }
+  }
+}).mount('#demo')
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>
