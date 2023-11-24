@@ -6,10 +6,9 @@
 <script>
   Vue.createApp({
     setup() {
-      debugger
       const person = Vue.reactive({ name: '夏末', age: 19 })
       const handleClick = (data) => {
-        // console.log('data===', data)
+        debugger
         person.age++
       }
       return {
@@ -20,22 +19,22 @@
   }).mount('#demo')
 
 
-  (function anonymous() {
-    const _Vue = Vue
-    const {  } = _Vue
+  // (function anonymous() {
+  //   const _Vue = Vue
+  //   const {  } = _Vue
 
-    const _hoisted_1 = ["onClick"]
+  //   const _hoisted_1 = ["onClick"]
 
-    return function render(_ctx, _cache) {
-      with (_ctx) {
-        const { toDisplayString: _toDisplayString, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+  //   return function render(_ctx, _cache) {
+  //     with (_ctx) {
+  //       const { toDisplayString: _toDisplayString, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
 
-        return (_openBlock(), _createElementBlock("div", {
-          onClick: $event => (handleClick(person))
-        }, _toDisplayString(person.name) + " - " + _toDisplayString(person.age), 9 /* TEXT, PROPS */, _hoisted_1))
-      }
-    }
-  })
+  //       return (_openBlock(), _createElementBlock("div", {
+  //         onClick: $event => (handleClick(person))
+  //       }, _toDisplayString(person.name) + " - " + _toDisplayString(person.age), 9 /* TEXT, PROPS */, _hoisted_1))
+  //     }
+  //   }
+  // })
 </script>
 
 <style>

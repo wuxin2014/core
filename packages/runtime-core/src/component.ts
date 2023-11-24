@@ -578,7 +578,7 @@ export function createComponentInstance(
     instance.ctx = { _: instance }
   }
   instance.root = parent ? parent.root : instance // parent.root 在哪里赋值的
-  instance.emit = emit.bind(null, instance) // 实例上的emit
+  instance.emit = emit.bind(null, instance) // 实例的emit函数的赋值， 通过bind传递第一个参数instance，注意componentEmits中emit方法
 
   // apply custom element special handling
   if (vnode.ce) {

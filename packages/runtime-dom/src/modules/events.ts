@@ -50,7 +50,7 @@ export function patchEvent(
     if (nextValue) {
       // add
       const invoker = (invokers[rawName] = createInvoker(nextValue, instance))
-      addEventListener(el, name, invoker, options)
+      addEventListener(el, name, invoker, options) // dom原生事件的注册
     } else if (existingInvoker) {
       // remove
       removeEventListener(el, name, existingInvoker, options)

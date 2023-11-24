@@ -646,13 +646,13 @@ function baseCreateRenderer(
         optimized
       )
     }
-
+    // 处理指令created函数
     if (dirs) {
       invokeDirectiveHook(vnode, null, parentComponent, 'created')
     }
     // scopeId
     setScopeId(el, vnode, vnode.scopeId, slotScopeIds, parentComponent)
-    // props
+    // props 处理属性
     if (props) {
       for (const key in props) {
         if (key !== 'value' && !isReservedProp(key)) {
@@ -696,6 +696,7 @@ function baseCreateRenderer(
         enumerable: false
       })
     }
+    // 处理指令beforeMount函数
     if (dirs) {
       invokeDirectiveHook(vnode, null, parentComponent, 'beforeMount')
     }

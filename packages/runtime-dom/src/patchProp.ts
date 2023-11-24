@@ -25,7 +25,7 @@ export const patchProp: DOMRendererOptions['patchProp'] = (
     patchClass(el, nextValue, isSVG)
   } else if (key === 'style') {
     patchStyle(el, prevValue, nextValue)
-  } else if (isOn(key)) {
+  } else if (isOn(key)) { // 事件处理
     // ignore v-model listeners
     if (!isModelListener(key)) {
       patchEvent(el, key, prevValue, nextValue, parentComponent)
