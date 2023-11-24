@@ -20,8 +20,8 @@ type TrackedMarkers = {
 
 export const createDep = (effects?: ReactiveEffect[]): Dep => {
   const dep = new Set<ReactiveEffect>(effects) as Dep
-  dep.w = 0
-  dep.n = 0
+  dep.w = 0 // 标识为已经追踪到的依赖
+  dep.n = 0 // 标识为属于正在运行副作用的新的依赖 
   return dep
 }
 
@@ -32,7 +32,7 @@ export const newTracked = (dep: Dep): boolean => (dep.n & trackOpBit) > 0
 export const initDepMarkers = ({ deps }: ReactiveEffect) => {
   if (deps.length) {
     for (let i = 0; i < deps.length; i++) {
-      deps[i].w |= trackOpBit // set was tracked
+      deps[i].w |= trackOpBit // set was tracked  例如 0 | 2, 0 | 4, 0 | 6，result: 2, 4, 6
     }
   }
 }

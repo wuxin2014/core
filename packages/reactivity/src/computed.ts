@@ -45,7 +45,7 @@ export class ComputedRefImpl<T> {
     this.effect = new ReactiveEffect(getter, () => {
       if (!this._dirty) {
         this._dirty = true
-        triggerRefValue(this)
+        triggerRefValue(this) // 注意这一步
       }
     })
     this.effect.computed = this
@@ -55,9 +55,10 @@ export class ComputedRefImpl<T> {
 
   // 取值时
   get value() {
+    debugger
     // the computed ref may get wrapped by other proxies e.g. readonly() #3376
     const self = toRaw(this)
-    trackRefValue(self)
+    trackRefValue(self) // 注意这一步
     if (self._dirty || !self._cacheable) {
       self._dirty = false
       self._value = self.effect.run()!

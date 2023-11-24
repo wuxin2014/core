@@ -1,0 +1,57 @@
+<script src="../../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div>姓名：{{ person.name }}</div>
+  <div>年龄：{{ person.name }}</div>
+  <div @click="handleClick">{{ comValue }}</div>
+</div>
+<script>
+  Vue.createApp({
+    setup() {
+      debugger
+      const person = Vue.reactive({ name: '夏末', age: 19 })
+      const handleClick = () => {
+        person.age++
+      }
+      // 创建一个只读的计算属性 ref
+      const comValue = Vue.computed(() => { return `${person.name}-${person.age}` })
+      return {
+        person,
+        comValue,
+        handleClick
+      }
+    }
+  }).mount('#demo')
+
+
+  // (function anonymous() {
+  //   const _Vue = Vue
+  //   const { createElementVNode: _createElementVNode } = _Vue
+
+  //   const _hoisted_1 = ["onClick"]
+
+  //   return function render(_ctx, _cache) {
+  //     with (_ctx) {
+  //       const { toDisplayString: _toDisplayString, createElementVNode: _createElementVNode, Fragment: _Fragment, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+
+  //       return (_openBlock(), _createElementBlock(_Fragment, null, [
+  //         _createElementVNode("div", null, "姓名：" + _toDisplayString(person.name), 1 /* TEXT */),
+  //         _createElementVNode("div", null, "年龄：" + _toDisplayString(person.name), 1 /* TEXT */),
+  //         _createElementVNode("div", { onClick: handleClick }, _toDisplayString(comValue), 9 /* TEXT, PROPS */, _hoisted_1)
+  //       ], 64 /* STABLE_FRAGMENT */))
+  //     }
+  //   }
+  // })
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

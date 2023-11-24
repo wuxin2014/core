@@ -103,7 +103,7 @@ export class ReactiveEffect<T = any> {
       // 将当前活动的 ReactiveEffect 对象设置为 “自己”
       activeEffect = this
       shouldTrack = true
-      // effectTrackDepth 用于标识当前的 effect 调用栈的深度，执行一次 effect 就会将 effectTrackDepth 加 1
+      // effectTrackDepth 用于标识当前的 effect 调用栈的深度，执行一次 effect 就会将 effectTrackDepth 加 1， 感觉是2的几次方(待验证)
       trackOpBit = 1 << ++effectTrackDepth
 
       if (effectTrackDepth <= maxMarkerBits) {
@@ -279,7 +279,9 @@ export function trackEffects(
 ) {
   let shouldTrack = false
   if (effectTrackDepth <= maxMarkerBits) {
+    // 如果未订阅过, 则新建
     if (!newTracked(dep)) {
+      // 根据当前的追踪标识位设置依赖的new值
       dep.n |= trackOpBit // set newly tracked
       shouldTrack = !wasTracked(dep)
     }
