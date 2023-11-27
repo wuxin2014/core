@@ -363,7 +363,7 @@ function doWatch(
     scheduler = () => queueJob(job)
   }
 
-  // new一个ReactiveEffect类，注意getter的入参
+  // 创建一个Watch 响应副作用对象，注意getter的入参
   const effect = new ReactiveEffect(getter, scheduler)
 
   if (__DEV__) {

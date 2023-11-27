@@ -1549,7 +1549,7 @@ function baseCreateRenderer(
     }
 
     // create reactive effect for rendering
-    // 创建响应式副作用对象， 给instance.effect的赋值
+    // 创建一个Render 响应式副作用对象， 给instance.effect的赋值
     const effect = (instance.effect = new ReactiveEffect(
       componentUpdateFn,
       () => queueJob(update),

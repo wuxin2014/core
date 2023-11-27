@@ -191,7 +191,7 @@ export function effect<T = any>(
   if ((fn as ReactiveEffectRunner).effect instanceof ReactiveEffect) {
     fn = (fn as ReactiveEffectRunner).effect.fn
   }
-  // 创建一个响应式副作用域函数
+  // effect函数中，创建一个响应式副作用域函数
   const _effect = new ReactiveEffect(fn)
   if (options) {
     extend(_effect, options)

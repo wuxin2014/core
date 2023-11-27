@@ -57,3 +57,5 @@ Copyright (c) 2013-present, Yuxi (Evan) You
 npm install -g pnpm
 pnpm install
 pnpm dev
+#### 本地服务
+pnpm run serve

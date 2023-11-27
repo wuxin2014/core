@@ -38,6 +38,7 @@ class DeferredComputedRefImpl<T> {
     let compareTarget: any
     let hasCompareTarget = false
     let scheduled = false
+    // 创建一个 DeferredComputed 响应副作用对象
     this.effect = new ReactiveEffect(getter, (computedTrigger?: boolean) => {
       if (this.dep) {
         if (computedTrigger) {

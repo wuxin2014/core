@@ -41,7 +41,7 @@ export class ComputedRefImpl<T> {
     isReadonly: boolean,
     isSSR: boolean
   ) {
-    // 创建一个副作用对象
+    // 创建一个computed响应副作用对象
     this.effect = new ReactiveEffect(getter, () => {
       if (!this._dirty) {
         this._dirty = true
