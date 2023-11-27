@@ -113,6 +113,7 @@ export function invalidateJob(job: SchedulerJob) {
   }
 }
 
+// 注意下queuePostFlushCb
 export function queuePostFlushCb(cb: SchedulerJobs) {
   if (!isArray(cb)) {
     if (
@@ -193,6 +194,7 @@ export function flushPostFlushCbs(seen?: CountMap) {
 const getId = (job: SchedulerJob): number =>
   job.id == null ? Infinity : job.id
 
+// 如果第一个参数应该位于第二个参数之前，则返回一个负数,如果第一个参数应该位于第二个参数之后，则返回一个正数
 const comparator = (a: SchedulerJob, b: SchedulerJob): number => {
   const diff = getId(a) - getId(b)
   if (diff === 0) {

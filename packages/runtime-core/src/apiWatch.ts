@@ -197,7 +197,7 @@ function doWatch(
         `a reactive object, or an array of these types.`
     )
   }
-
+  // instance这一行注意下
   const instance =
     getCurrentScope() === currentInstance?.scope ? currentInstance : null
   // const instance = currentInstance
@@ -314,7 +314,7 @@ function doWatch(
     }
     if (cb) {
       // watch(source, cb)
-      const newValue = effect.run()
+      const newValue = effect.run() // 获取新值
       if (
         deep ||
         forceTrigger ||
@@ -329,6 +329,7 @@ function doWatch(
         if (cleanup) {
           cleanup()
         }
+        // 执行cb函数将新值，旧值传递回去
         callWithAsyncErrorHandling(cb, instance, ErrorCodes.WATCH_CALLBACK, [
           newValue,
           // pass undefined as the old value when it's changed for the first time
@@ -351,6 +352,7 @@ function doWatch(
   // it is allowed to self-trigger (#1727)
   job.allowRecurse = !!cb
 
+  // 定义watcher调度函数，注意下flush回调刷新时机
   let scheduler: EffectScheduler
   if (flush === 'sync') {
     scheduler = job as any // the scheduler function gets called directly
@@ -358,12 +360,12 @@ function doWatch(
     scheduler = () => queuePostRenderEffect(job, instance && instance.suspense)
   } else {
     // default: 'pre'
-    job.pre = true
+    job.pre = true  // 注意pre的赋值， 在scheduler中queue的排序用的着
     if (instance) job.id = instance.uid
     scheduler = () => queueJob(job)
   }
 
-  // 创建一个Watch 响应副作用对象，注意getter的入参
+  // 创建一个Watcher 响应副作用对象，注意getter的入参
   const effect = new ReactiveEffect(getter, scheduler)
 
   if (__DEV__) {
@@ -376,7 +378,7 @@ function doWatch(
     if (immediate) {
       job()
     } else {
-      oldValue = effect.run()
+      oldValue = effect.run() // 第一次取值赋值给oldValue
     }
   } else if (flush === 'post') {
     queuePostRenderEffect(

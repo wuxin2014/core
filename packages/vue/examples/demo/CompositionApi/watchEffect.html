@@ -1,0 +1,46 @@
+<script src="../../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div @click="handleClick">{{ person.name }} - {{ person.age }}</div>
+</div>
+<script>
+  Vue.createApp({
+    setup() {
+      debugger
+      const person = Vue.reactive({ name: '夏末', age: 19 })
+      const handleClick = () => {
+        person.age++
+      }
+
+      // watch 会明确监听某一个响应数据，而watchEffect则是隐式的监听回调函数中响应数据
+      const stop = Vue.watchEffect(() => {
+        console.log("新的值:", number.count);
+      })
+
+    //   Vue.watchPostEffect(() => {
+    //     console.log("新的值:", number.count);
+    //   })
+
+    //   Vue.watchSyncEffect(() => {
+    //     console.log("新的值:", number.count);
+    //   })
+
+      return {
+        person,
+        handleClick
+      }
+    }
+  }).mount('#demo')
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

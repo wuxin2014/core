@@ -1,27 +1,52 @@
 <script src="../../../dist/vue.global.js"></script>
 <!-- App template (in DOM) -->
 <div id="demo">
-  <div @click="handleClick">{{ perso.age }}</div>
+  <div>姓名：{{ person.name }}</div>
+  <div ref="ageRef">年龄：{{ person.age }}</div>
+  <button @click="handleClick">变更年龄</button>
 </div>
 <script>
   Vue.createApp({
     setup() {
       debugger
       const person = Vue.reactive({ name: '夏末', age: 19 })
+      const ageRef = Vue.ref(null)
       const handleClick = () => {
         person.age++
       }
-      // watchSource: 一个函数，返回一个值, 一个 ref, 一个响应式对象
-      watch(() => person.age, (newVal, oldVal) => {
-        console.log('1==newVal, oldVal==', newVal, oldVal)
-      })
+      /**
+       * wacth(watchSource, cb, options)
+       * watchSource: 可能是函数, 响应式对象, 数组, ref
+       * 一个函数，返回一个值
+       * 一个 ref
+       * 一个响应式对象
+       * ...或是由以上类型的值组成的数组
+       * 
+       * watchEffect() 相比，watch() 使我们可以：
+       * 1. 懒执行副作用；
+       * 2. 更加明确是应该由哪个状态触发侦听器重新执行；
+       * 3. 可以访问所侦听状态的前一个值和当前值。
+       * 
+       */ 
+      // 1. 函数形式，返回一个值
+      // Vue.watch(() => person.age, (newVal, oldVal) => {
+      //   console.log("DOM 节点", msgRef.value.innerHTML);
+      //   console.log('==newVal, oldVal==', newVal, oldVal)
+      // })
 
-      watch(person, (newVal, oldVal) => {
-        console.log('2==newVal, oldVal==', newVal, oldVal)
-      }, { deep: true })
+      Vue.watch(() => person.age, (newVal, oldVal) => {
+        console.log("DOM 节点", ageRef.value.innerHTML);
+        console.log('==newVal, oldVal==', newVal, oldVal)
+      }, { flush: 'post' })
+
+      // 2.响应式对象形式
+      // Vue.watch(person, (newVal, oldVal) => {
+      //   console.log('==newVal, oldVal==', newVal, oldVal)
+      // }, { deep: true })
 
       return {
         person,
+        ageRef,
         handleClick
       }
     }
