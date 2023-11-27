@@ -1,0 +1,48 @@
+<script src="../../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div>{{ baseRef }}</div>
+  <div>{{ objRef }}</div>
+  <div>{{ reactiveRef }}</div>
+</div>
+<script>
+  Vue.createApp({
+    setup() {
+      debugger
+      // 1. 普通值
+      const baseRef = Vue.ref(1)
+      console.log(baseRef.value)
+
+      // 2. 普通对象
+      const obj = {a: 1, b: 2}
+      const objRef = Vue.ref(obj)
+      console.log(objRef.value)
+      
+      // 3. 响应式对象
+      const state = Vue.reactive({
+        foo: 1,
+        bar: 2
+      })
+      const reactiveRef = Vue.ref(state)
+      console.log(reactiveRef.value)
+      
+      return {
+        baseRef,
+        objRef,
+        reactiveRef
+      }
+    }
+  }).mount('#demo')
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>
