@@ -2,7 +2,7 @@
 <!-- App template (in DOM) -->
 <div id="demo">
   <div>姓名：{{ person.name }}</div>
-  <div>年龄：{{ person.name }}</div>
+  <div>年龄：{{ person.age }}</div>
   <div @click="handleClick">{{ comValue }}</div>
 </div>
 <script>
@@ -11,6 +11,7 @@
       debugger
       const person = Vue.reactive({ name: '夏末', age: 19 })
       const handleClick = () => {
+        person.age++
         person.age++
       }
       // 创建一个只读的计算属性 ref

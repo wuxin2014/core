@@ -93,6 +93,7 @@ class BaseReactiveHandler implements ProxyHandler<Target> {
   ) {}
 
   get(target: Target, key: string | symbol, receiver: object) {
+    debugger
     const isReadonly = this._isReadonly,
       shallow = this._shallow
     if (key === ReactiveFlags.IS_REACTIVE) {
@@ -168,6 +169,7 @@ class MutableReactiveHandler extends BaseReactiveHandler {
     value: unknown,
     receiver: object
   ): boolean {
+    debugger
     let oldValue = (target as any)[key]
     if (isReadonly(oldValue) && isRef(oldValue) && !isRef(value)) {
       return false
@@ -212,6 +214,7 @@ class MutableReactiveHandler extends BaseReactiveHandler {
   }
 
   has(target: object, key: string | symbol): boolean {
+    debugger
     const result = Reflect.has(target, key)
     if (!isSymbol(key) || !builtInSymbols.has(key)) {
       track(target, TrackOpTypes.HAS, key)

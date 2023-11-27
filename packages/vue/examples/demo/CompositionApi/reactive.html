@@ -1,6 +1,8 @@
 <script src="../../../dist/vue.global.js"></script>
 <!-- App template (in DOM) -->
 <div id="demo">
+  <div>姓名：{{ person.name }}</div>
+  <div>年龄：{{ person.name }}</div>
   <div @click="handleClick(person)">{{ person.name }} - {{ person.age }}</div>
 </div>
 <script>
@@ -8,7 +10,6 @@
     setup() {
       const person = Vue.reactive({ name: '夏末', age: 19 })
       const handleClick = (data) => {
-        debugger
         person.age++
       }
       return {
