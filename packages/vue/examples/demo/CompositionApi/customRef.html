@@ -30,6 +30,29 @@
       }
     }
   }).mount('#demo')
+
+
+  // (function anonymous() {
+  //   const _Vue = Vue
+  //   const { createElementVNode: _createElementVNode } = _Vue
+
+  //   const _hoisted_1 = ["onUpdate:modelValue"]
+
+  //   return function render(_ctx, _cache) {
+  //     with (_ctx) {
+  //       const { toDisplayString: _toDisplayString, createElementVNode: _createElementVNode, vModelText: _vModelText, withDirectives: _withDirectives, Fragment: _Fragment, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+
+  //       return (_openBlock(), _createElementBlock(_Fragment, null, [
+  //         _createElementVNode("p", null, _toDisplayString(text), 1 /* TEXT */),
+  //         _withDirectives(_createElementVNode("input", {
+  //           "onUpdate:modelValue": $event => ((text) = $event)
+  //         }, null, 8 /* PROPS */, _hoisted_1), [
+  //           [_vModelText, text]
+  //         ])
+  //       ], 64 /* STABLE_FRAGMENT */))
+  //     }
+  //   }
+  // })
 </script>
 
 <style>

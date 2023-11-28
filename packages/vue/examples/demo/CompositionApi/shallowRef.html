@@ -1,7 +1,9 @@
 <script src="../../../dist/vue.global.js"></script>
 <!-- App template (in DOM) -->
 <div id="demo">
-  <div>{{ state.foo }}</div>
+  <div class="wrap">{{ state.foo }}</div>
+  <button @click="handleClick">触发ref.value</button>
+  <button @click="handleClick2">触发ref.value.foo</button>
 </div>
 <script>
   Vue.createApp({
@@ -11,14 +13,23 @@
         foo: 1,
         bar: 2
       })
-      // 不会触发更改
-      state.value.foo = 2
-
-      // 会触发更改
-      state.value = { foo: 2 }
       
+      const handleClick = () => {
+        console.log('==handleClick==会触发更改')
+        // 会触发更改
+        state.value = { foo: 2 }
+      }
+
+      const handleClick2 = () => {
+        console.log('==handleClick2==不会触发更改')
+        // 不会触发更改
+        state.value.foo = 2
+      }
+
       return {
-        state
+        state,
+        handleClick,
+        handleClick2
       }
     }
   }).mount('#demo')
@@ -31,7 +42,10 @@ body {
   color: #444;
 }
 
-.red {
-    color: red;
+.wrap {
+  height: 40px;
+  line-height: 40px;
+  background-color: antiquewhite;
+  margin-bottom: 10px;
 }
 </style>

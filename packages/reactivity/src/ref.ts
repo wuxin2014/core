@@ -293,10 +293,12 @@ class CustomRefImpl<T> {
   }
 
   get value() {
+    debugger
     return this._get()
   }
 
   set value(newVal) {
+    debugger
     this._set(newVal)
   }
 }
