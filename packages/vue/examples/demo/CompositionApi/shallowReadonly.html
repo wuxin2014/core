@@ -1,28 +1,25 @@
 <script src="../../../dist/vue.global.js"></script>
 <!-- App template (in DOM) -->
 <div id="demo">
-  <div @click="handleClick">{{ copy.count }}</div>
+  <div @click="handleClick(person)">{{ person.name }} - {{ person.age }}</div>
 </div>
 <script>
   Vue.createApp({
     setup() {
       debugger
-      const person = Vue.reactive({ count: 1 })
-      const copy = Vue.readonly(person)
-
-      const handleClick = () => {
-        // 更改该只读副本将会失败，并会得到一个警告
-        copy.count++ // warning!
-
-        // 更改源属性会触发其依赖的侦听器
-        // person.count++
+      const person = Vue.shallowReadonly({ name: '夏末', age: 19 })
+      const handleClick = (data) => {
+        // console.log('data===', data)
+        person.age++
       }
       return {
-        copy,
+        person,
         handleClick
       }
     }
   }).mount('#demo')
+
+
 </script>
 
 <style>
