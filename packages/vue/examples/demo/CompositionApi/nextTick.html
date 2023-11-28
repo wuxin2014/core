@@ -1,0 +1,49 @@
+<script src="../../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div>姓名：{{ person.name }}</div>
+  <div id="counter" ref="ageRef">年龄：{{ person.age }}</div>
+  <button @click="handleClick">更改年龄</button>
+  <button @click="handleClick2">更改年龄-nextTick</button>
+</div>
+<script>
+  Vue.createApp({
+    setup() {
+      debugger
+      const person = Vue.reactive({ name: '夏末', age: 19 })
+      const ageRef = Vue.ref(null)
+      const handleClick = () => {
+        person.age++
+        console.log(document.getElementById('counter').textContent)
+      }
+      const handleClick2 = async () => {
+        debugger
+        person.age++
+        // console.log(ageRef.value)
+        console.log(document.getElementById('counter').textContent)
+        await Vue.nextTick()
+        // console.log(ageRef.value)
+        console.log(document.getElementById('counter').textContent)
+      }
+      return {
+        person,
+        ageRef,
+        handleClick,
+        handleClick2
+      }
+    }
+  }).mount('#demo')
+
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

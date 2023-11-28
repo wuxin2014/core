@@ -50,6 +50,7 @@ let currentFlushPromise: Promise<void> | null = null
 const RECURSION_LIMIT = 100
 type CountMap = Map<SchedulerJob, number>
 
+// nextTick的函数
 export function nextTick<T = void, R = void>(
   this: T,
   fn?: (this: T) => R

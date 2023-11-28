@@ -1,0 +1,66 @@
+<script src="../../../dist/vue.global.js"></script>
+<script type="text/x-template" id="custom-comp">
+  <button @click="handleClick">testEmit</button>
+</script>
+<script>
+  /**
+   * emits的选项(不是必要的)，其作用：
+   * 这声明了一个组件可能触发的所有事件，还可以对事件的参数进行验证
+   * 还可以让 Vue 避免将它们作为原生事件监听器隐式地应用于子组件的根元素
+   * 
+   * 如果一个原生事件的名字 (例如 click) 被定义在 emits 选项中，则监听器只会监听组件触发的 click 事件而不会再响应原生的 click 事件。
+   */ 
+  const CustomComp = {
+    template: '#custom-comp',
+    emits: ['testEmit'], // 声明自定义事件
+    setup(props, { emit }) {
+      debugger
+      const handleClick = () => {
+        emit('testEmit', 'result')
+      }
+      return { handleClick }
+    }
+  }
+  </script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div id="search">
+    <div @click="handleClick">{{ callbackVal }}</div>
+    <custom-comp @test-emit="handleCallback" />
+  </div>
+</div>
+<!-- App script -->
+<script>
+Vue.createApp({
+  components: {
+    CustomComp
+  },
+  setup() {
+    const callbackVal = Vue.ref('haha')
+    const handleClick = () => {
+      console.log('handleClick')
+    }
+    const handleCallback = (data) => {
+      console.log('子组件事件回调===', data)
+      callbackVal.value = data
+    }
+    return {
+        callbackVal,
+        handleClick,
+        handleCallback 
+    }
+  }
+}).mount('#demo')
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

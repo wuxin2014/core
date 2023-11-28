@@ -1,0 +1,44 @@
+<script src="../../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div>
+    <div>{{ state.foo }}</div>
+    <AsyncComp />
+  </div>
+</div>
+<script>
+  const AsyncComp = Vue.defineAsyncComponent(() => {
+    return new Promise(resolve => {
+      resolve()
+    })
+  })
+  const app = Vue.createApp({
+    components: {
+      AsyncComp
+    },
+    setup() {
+      debugger
+      const state = { foo: 1, bar: 2 }
+      const reactiveState = Vue.reactive(state)
+      return {
+        state
+      }
+    }
+  })
+//   app.component('MyComponent', Vue.defineAsyncComponent(() =>
+//     import('./components/MyComponent.vue')
+//   ))
+  app.mount('#demo')
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+  color: red;
+}
+</style>

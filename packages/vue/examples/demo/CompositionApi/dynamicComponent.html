@@ -1,0 +1,20 @@
+<script src="../../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+    <div>
+       <!-- 由于 'input' 是原生 HTML 元素，因此这个 v-model 不起作用 -->
+       <component :is="tag" v-model="username" />
+    </div>
+  </div>
+<script>
+  Vue.createApp({
+    setup() {
+        const tag = Vue.ref('input')
+        const username = Vue.ref('ss')
+        return {
+            tag,
+            username
+        }
+    }
+  }).mount('#demo')
+</script>
