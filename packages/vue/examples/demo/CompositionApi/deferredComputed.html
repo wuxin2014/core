@@ -12,20 +12,7 @@
         person.age++
         person.age++
       }
-      // 1. 创建一个只读的计算属性
-      const comValue = Vue.computed(() => { return `${person.name}-${person.age}` })
-
-      // const count = Vue.ref(0)
-      // // 2. 创建一个可读写的计算属性
-      // const countComputed = Vue.computed({
-      //   set: (val) => {
-      //     count.value = val
-      //   },
-      //   get: () => {
-      //     return count.value
-      //   }
-      // })
-
+      const comValue = Vue.deferredComputed(() => { return `${person.name}-${person.age}` })
       return {
         person,
         comValue,
