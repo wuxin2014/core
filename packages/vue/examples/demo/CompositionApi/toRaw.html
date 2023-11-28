@@ -1,7 +1,7 @@
 <script src="../../../dist/vue.global.js"></script>
 <!-- App template (in DOM) -->
 <div id="demo">
-  <div>{{ state.foo }}</div>
+  <button @click="handleClick">{{ state.foo }}</button>
 </div>
 <script>
   Vue.createApp({
@@ -20,8 +20,14 @@
       // 也适用于嵌套在其他响应性对象
       // const bar = reactive({ foo })
       // console.log(isReactive(bar.foo)) // false
+      
+      const handleClick = () => {
+        console.log('==handleClick==')
+        state.foo++
+      }
       return {
         state,
+        handleClick
       }
     }
   }).mount('#demo')
