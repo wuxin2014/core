@@ -308,6 +308,7 @@ export function createElementBlock(
   dynamicProps?: string[],
   shapeFlag?: number
 ) {
+  debugger
   return setupBlock(
     createBaseVNode(
       type,
@@ -426,6 +427,7 @@ function createBaseVNode(
   isBlockNode = false,
   needFullChildrenNormalization = false
 ) {
+  debugger
   const vnode = {
     __v_isVNode: true,
     __v_skip: true,

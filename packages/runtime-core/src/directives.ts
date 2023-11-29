@@ -79,11 +79,13 @@ export type DirectiveArguments = Array<
 
 /**
  * Adds directives to a VNode.
+ * 给vnode的dirs进行赋值
  */
 export function withDirectives<T extends VNode>(
   vnode: T,
   directives: DirectiveArguments
 ): T {
+  debugger
   const internalInstance = currentRenderingInstance
   if (internalInstance === null) {
     __DEV__ && warn(`withDirectives can only be used inside render functions.`)
@@ -92,9 +94,9 @@ export function withDirectives<T extends VNode>(
   const instance =
     (getExposeProxy(internalInstance) as ComponentPublicInstance) ||
     internalInstance.proxy
-  const bindings: DirectiveBinding[] = vnode.dirs || (vnode.dirs = [])
+  const bindings: DirectiveBinding[] = vnode.dirs || (vnode.dirs = []) // bindings的赋值，注意vnode.dirs的引用
   for (let i = 0; i < directives.length; i++) {
-    let [dir, value, arg, modifiers = EMPTY_OBJ] = directives[i]
+    let [dir, value, arg, modifiers = EMPTY_OBJ] = directives[i] // 注意指令信息，数组形式存储，这行用了数组解构
     if (dir) {
       if (isFunction(dir)) {
         dir = {
@@ -119,20 +121,21 @@ export function withDirectives<T extends VNode>(
   return vnode
 }
 
+// 调用指令钩子函数
 export function invokeDirectiveHook(
   vnode: VNode,
   prevVNode: VNode | null,
   instance: ComponentInternalInstance | null,
   name: keyof ObjectDirective
 ) {
-  const bindings = vnode.dirs!
+  const bindings = vnode.dirs! // 从vnode.dirs拿到指令信息
   const oldBindings = prevVNode && prevVNode.dirs!
   for (let i = 0; i < bindings.length; i++) {
     const binding = bindings[i]
     if (oldBindings) {
       binding.oldValue = oldBindings[i].value
     }
-    let hook = binding.dir[name] as DirectiveHook | DirectiveHook[] | undefined
+    let hook = binding.dir[name] as DirectiveHook | DirectiveHook[] | undefined // 根据参数name获取指定的指令钩子函数
     if (__COMPAT__ && !hook) {
       hook = mapCompatDirectiveHook(name, binding.dir, instance)
     }
@@ -140,6 +143,7 @@ export function invokeDirectiveHook(
       // disable tracking inside all lifecycle hooks
       // since they can potentially be called inside effects.
       pauseTracking()
+      // 执行指令钩子函数
       callWithAsyncErrorHandling(hook, instance, ErrorCodes.DIRECTIVE_HOOK, [
         vnode.el,
         binding,

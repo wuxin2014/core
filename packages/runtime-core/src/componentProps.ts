@@ -375,7 +375,7 @@ function setFullProps(
   props: Data,
   attrs: Data
 ) {
-  const [options, needCastKeys] = instance.propsOptions
+  const [options, needCastKeys] = instance.propsOptions // 在初始化组件实例时，处理过，现在拿来使用
   let hasAttrsChanged = false
   let rawCastValues: Data | undefined
   if (rawProps) {

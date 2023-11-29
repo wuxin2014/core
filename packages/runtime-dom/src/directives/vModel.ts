@@ -40,6 +40,7 @@ const assignKey = Symbol('_assign')
 
 type ModelDirective<T> = ObjectDirective<T & { [assignKey]: AssignerFn }>
 
+// v-model 文本指令钩子函数对象
 // We are exporting the v-model runtime directly as vnode hooks so that it can
 // be tree-shaken in case v-model is never used.
 export const vModelText: ModelDirective<

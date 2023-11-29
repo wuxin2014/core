@@ -1,45 +1,120 @@
 <script src="../../dist/vue.global.js"></script>
+<script type="text/x-template" id="custom-comp">
+  <input
+    :value="modelValue"
+    @input="$emit('update:modelValue', $event.target.value)"
+  />
+</script>
+<script>
+  const CustomComp = {
+    template: '#custom-comp',
+    props: ['modelValue'],
+    emits: ['update:modelValue'],
+    setup(props, { emit }) {
+      const value = Vue.computed({
+        get() {
+          return props.modelValue
+        },
+        set(value) {
+          emit('update:modelValue', value)
+        }
+      })
+
+      return {
+        value
+      }
+    }
+  }
+</script>
+<script type="text/x-template" id="my-component">
+  <input v-model="value" />
+</script>
+<script>
+  const MyComp = {
+    template: '#my-component',
+    props: ['title'],
+    emits: ['update:title'],
+    setup(props, { emit }) {
+      const value = Vue.computed({
+        get() {
+          return props.title
+        },
+        set(value) {
+          emit('update:title', value)
+        }
+      })
+
+      return {
+        value
+      }
+    }
+  }
+</script>
 <!-- App template (in DOM) -->
+ <!-- <h1>{{ title }}</h1>
+    <my-comp v-model:title="title" /> -->
 <div id="demo">
   <div id="search">
     <h1>{{ name }}</h1>
-    <input v-model="name" />
+    <custom-comp v-model="name" />
   </div>
 </div>
 <!-- App script -->
 <script>
   debugger
 Vue.createApp({
+  components: { CustomComp, MyComp },
   setup() {
     const name = Vue.ref('Hello World!')
+    const title = Vue.ref('Title')
     return {
-      name
+      name,
+      title
     }
   }
 }).mount('#demo')
 
-(function anonymous() {
-  const _Vue = Vue
-  const { createElementVNode: _createElementVNode } = _Vue
+// (function anonymous() {
+//   const _Vue = Vue
+//   const { createVNode: _createVNode, createElementVNode: _createElementVNode, createCommentVNode: _createCommentVNode } = _Vue
+//   const _hoisted_1 = { id: "search" }
 
-  const _hoisted_1 = { id: "search" }
-  const _hoisted_2 = ["onUpdate:modelValue"]
+//   return function render(_ctx, _cache) {
+//     with (_ctx) {
+//       const { createCommentVNode: _createCommentVNode, toDisplayString: _toDisplayString, createElementVNode: _createElementVNode, resolveComponent: _resolveComponent, createVNode: _createVNode, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
 
-  return function render(_ctx, _cache) {
-    with (_ctx) {
-      const { toDisplayString: _toDisplayString, createElementVNode: _createElementVNode, vModelText: _vModelText, withDirectives: _withDirectives, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+//       const _component_custom_comp = _resolveComponent("custom-comp")
 
-      return (_openBlock(), _createElementBlock("div", _hoisted_1, [
-        _createElementVNode("h1", null, _toDisplayString(name), 1 /* TEXT */),
-        _withDirectives(_createElementVNode("input", {
-          "onUpdate:modelValue": $event => ((name) = $event)
-        }, null, 8 /* PROPS */, _hoisted_2), [
-          [_vModelText, name]
-        ])
-      ]))
-    }
-  }
-})
+//       return (_openBlock(), _createElementBlock("div", _hoisted_1, [
+//         _createCommentVNode(" <h1>{{ title }}</h1>\n    <my-comp v-model:title=\"title\" /> "),
+//         _createElementVNode("h1", null, _toDisplayString(name), 1 /* TEXT */),
+//         _createVNode(_component_custom_comp, {
+//           modelValue: name,
+//           "onUpdate:modelValue": $event => ((name) = $event)
+//         }, null, 8 /* PROPS */, ["modelValue", "onUpdate:modelValue"])
+//       ]))
+//     }
+//   }
+// })
+
+// 子组件
+// (function anonymous() {
+//   const _Vue = Vue
+//   const {  } = _Vue
+
+//   const _hoisted_1 = ["value", "onInput"]
+
+//   return function render(_ctx, _cache) {
+//     with (_ctx) {
+//       const { openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+
+//       return (_openBlock(), _createElementBlock("input", {
+//         value: modelValue,
+//         onInput: $event => ($emit('update:modelValue', $event.target.value))
+//       }, null, 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_1))
+//     }
+//   }
+// })
 </script>
 
 <style>
