@@ -1,0 +1,101 @@
+<script src="../../dist/vue.global.js"></script>
+<script type="text/x-template" id="custom-comp">
+  <div style="font-size: 16px">
+    <slot :text="greetingMessage" :count="1"></slot>
+  </div>
+</script>
+<script>
+  const CustomComp = {
+    template: '#custom-comp',
+    data() {
+      return {
+        greetingMessage: 'greetingMessage'
+      }
+    }
+  }
+</script>
+<!-- App template (in DOM) -->
+<!-- v-slot can only be used on components or <template> tags. 重点注意写法-->
+<div id="demo">
+  <div id="search">
+    <h1>作用域插槽</h1>
+    <custom-comp v-slot="slotProps">
+      <div style="color: blueviolet;">{{ slotProps.text }} {{ slotProps.count }}</div>
+    </custom-comp>
+  </div>
+</div>
+<!-- App script -->
+<script>
+  debugger
+Vue.createApp({
+  components: { CustomComp },
+  setup() {
+    const name = Vue.ref('Hello World!')
+    const title = Vue.ref('Title')
+    return {
+      name,
+      title
+    }
+  }
+}).mount('#demo')
+
+// (function anonymous() {
+//   const _Vue = Vue
+//   const { createVNode: _createVNode, createElementVNode: _createElementVNode } = _Vue
+
+//   const _hoisted_1 = { id: "search" }
+//   const _hoisted_2 = /*#__PURE__*/_createElementVNode("h1", null, "作用域插槽", -1 /* HOISTED */)
+//   const _hoisted_3 = { style: {"color":"blueviolet"} }
+
+//   return function render(_ctx, _cache) {
+//     with (_ctx) {
+//       const { createElementVNode: _createElementVNode, toDisplayString: _toDisplayString, resolveComponent: _resolveComponent, withCtx: _withCtx, createVNode: _createVNode, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+
+//       const _component_custom_comp = _resolveComponent("custom-comp")
+
+//       return (_openBlock(), _createElementBlock("div", _hoisted_1, [
+//         _hoisted_2,
+//         _createVNode(_component_custom_comp, null, {
+//           default: _withCtx((slotProps) => [
+//             _createElementVNode("div", _hoisted_3, _toDisplayString(slotProps.text) + " " + _toDisplayString(slotProps.count), 1 /* TEXT */)
+//           ]),
+//           _: 1 /* STABLE */
+//         })
+//       ]))
+//     }
+//   }
+// })
+
+// 子组件
+// (function anonymous() {
+//   const _Vue = Vue
+//   const {  } = _Vue
+
+//   const _hoisted_1 = { style: {"font-size":"16px"} }
+
+//   return function render(_ctx, _cache) {
+//     with (_ctx) {
+//       const { renderSlot: _renderSlot, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+
+//       return (_openBlock(), _createElementBlock("div", _hoisted_1, [
+//         _renderSlot($slots, "default", {
+//           text: greetingMessage,
+//           count: 1
+//         })
+//       ]))
+//     }
+//   }
+// })
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

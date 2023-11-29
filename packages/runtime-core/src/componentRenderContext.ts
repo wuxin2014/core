@@ -72,6 +72,7 @@ export function withCtx(
   ctx: ComponentInternalInstance | null = currentRenderingInstance,
   isNonScopedSlot?: boolean // __COMPAT__ only
 ) {
+  debugger
   if (!ctx) return fn
 
   // already normalized

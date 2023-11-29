@@ -1,0 +1,119 @@
+<script src="../../dist/vue.global.js"></script>
+<script type="text/x-template" id="custom-comp">
+  <div style="font-size: 16px">
+    <header style="background-color: antiquewhite; padding: 10px;">
+      <slot name="header"></slot>
+    </header>
+    <main style="padding: 10px;">
+      <slot></slot>
+    </main>
+    <footer style="background-color: bisque; padding: 10px">
+      <slot name="footer"></slot>
+    </footer>
+  </div>
+</script>
+<script>
+  const CustomComp = {
+    template: '#custom-comp',
+  }
+</script>
+<!-- App template (in DOM) -->
+<!-- v-slot can only be used on components or <template> tags. 重点注意写法-->
+<div id="demo">
+  <div id="search">
+    <h1>具名插槽</h1>
+    <custom-comp>
+      <template #header>{{ title }}</template>
+      <p>{{name}}</p>
+      <template #footer>Footer</template>
+    </custom-comp>
+  </div>
+</div>
+<!-- App script -->
+<script>
+  debugger
+Vue.createApp({
+  components: { CustomComp },
+  setup() {
+    const name = Vue.ref('Hello World!')
+    const title = Vue.ref('Title')
+    return {
+      name,
+      title
+    }
+  }
+}).mount('#demo')
+
+// (function anonymous() {
+//   const _Vue = Vue
+//   const { createVNode: _createVNode, createElementVNode: _createElementVNode, createTextVNode: _createTextVNode } = _Vue
+
+//   const _hoisted_1 = { id: "search" }
+
+//   return function render(_ctx, _cache) {
+//     with (_ctx) {
+//       const { toDisplayString: _toDisplayString, createElementVNode: _createElementVNode, createTextVNode: _createTextVNode, resolveComponent: _resolveComponent, withCtx: _withCtx, createVNode: _createVNode, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+
+//       const _component_custom_comp = _resolveComponent("custom-comp")
+
+//       return (_openBlock(), _createElementBlock("div", _hoisted_1, [
+//         _createElementVNode("h1", null, _toDisplayString(name), 1 /* TEXT */),
+//         _createVNode(_component_custom_comp, null, {
+//           header: _withCtx(() => [
+//             _createTextVNode(_toDisplayString(title), 1 /* TEXT */)
+//           ]),
+//           footer: _withCtx(() => [
+//             _createTextVNode("Footer")
+//           ]),
+//           default: _withCtx(() => [
+//             _createElementVNode("p", null, _toDisplayString(name), 1 /* TEXT */)
+//           ]),
+//           _: 1 /* STABLE */
+//         })
+//       ]))
+//     }
+//   }
+// })
+
+
+// 子组件
+// (function anonymous() {
+//   const _Vue = Vue
+//   const { createElementVNode: _createElementVNode } = _Vue
+
+//   const _hoisted_1 = { style: {"font-size":"16px"} }
+//   const _hoisted_2 = { style: {"background-color":"antiquewhite","padding":"10px"} }
+//   const _hoisted_3 = { style: {"padding":"10px"} }
+//   const _hoisted_4 = { style: {"background-color":"bisque","padding":"10px"} }
+
+//   return function render(_ctx, _cache) {
+//     with (_ctx) {
+//       const { renderSlot: _renderSlot, createElementVNode: _createElementVNode, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+
+//       return (_openBlock(), _createElementBlock("div", _hoisted_1, [
+//         _createElementVNode("header", _hoisted_2, [
+//           _renderSlot($slots, "header")
+//         ]),
+//         _createElementVNode("main", _hoisted_3, [
+//           _renderSlot($slots, "default")
+//         ]),
+//         _createElementVNode("footer", _hoisted_4, [
+//           _renderSlot($slots, "footer")
+//         ])
+//       ]))
+//     }
+//   }
+// })
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

@@ -31,6 +31,7 @@ export function renderSlot(
   fallback?: () => VNodeArrayChildren,
   noSlotted?: boolean
 ): VNode {
+  debugger
   if (
     currentRenderingInstance!.isCE ||
     (currentRenderingInstance!.parent &&
