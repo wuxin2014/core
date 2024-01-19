@@ -432,7 +432,7 @@ function createBaseVNode(
     __v_isVNode: true,
     __v_skip: true,
     type,
-    props,
+    props, // 属性
     key: props && normalizeKey(props),
     ref: props && normalizeRef(props),
     scopeId: currentScopeId,
@@ -451,10 +451,10 @@ function createBaseVNode(
     staticCount: 0,
     shapeFlag,
     patchFlag,
-    dynamicProps,
+    dynamicProps, // 动态属性
     dynamicChildren: null, // 动态子节点VNode
     appContext: null,
-    ctx: currentRenderingInstance
+    ctx: currentRenderingInstance // 当前渲染上下文实例
   } as VNode
 
   if (needFullChildrenNormalization) {

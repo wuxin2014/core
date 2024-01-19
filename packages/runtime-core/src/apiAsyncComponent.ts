@@ -68,6 +68,7 @@ export function defineAsyncComponent<
     return load()
   }
 
+  // loader函数执行必须返回promise???
   const load = (): Promise<ConcreteComponent> => {
     let thisRequest: Promise<ConcreteComponent>
     return (
@@ -106,7 +107,7 @@ export function defineAsyncComponent<
             if (__DEV__ && comp && !isObject(comp) && !isFunction(comp)) {
               throw new Error(`Invalid async component load result: ${comp}`)
             }
-            resolvedComp = comp
+            resolvedComp = comp // 获得解析后的组件对象
             return comp
           }))
     )

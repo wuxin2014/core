@@ -254,6 +254,7 @@ const getPublicInstance = (
   return getPublicInstance(i.parent)
 }
 
+// 公用的实例属性对象
 export const publicPropertiesMap: PublicPropertiesMap =
   // Move PURE marker to new line to workaround compiler discarding it
   // due to type annotation
@@ -296,7 +297,7 @@ export const isReservedPrefix = (key: string) => key === '_' || key === '$'
 const hasSetupBinding = (state: Data, key: string) =>
   state !== EMPTY_OBJ && !state.__isScriptSetup && hasOwn(state, key)
 
-// get, set, has, defineProperty
+// 公用实例代理对象Handers。对 get, set, has, defineProperty进行拦截
 export const PublicInstanceProxyHandlers: ProxyHandler<any> = {
   get({ _: instance }: ComponentRenderContext, key: string) {
     const { ctx, setupState, data, props, accessCache, type, appContext } =

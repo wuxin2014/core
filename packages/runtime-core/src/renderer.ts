@@ -1167,6 +1167,7 @@ function baseCreateRenderer(
           optimized
         )
       } else {
+        // 挂载组件
         mountComponent(
           n2,
           container,
@@ -1178,6 +1179,7 @@ function baseCreateRenderer(
         )
       }
     } else {
+      // 更新组件
       updateComponent(n1, n2, optimized)
     }
   }
@@ -1243,7 +1245,7 @@ function baseCreateRenderer(
       }
       return
     }
-    // 渲染副作用
+    // 设置并运行带副作用的渲染函数
     setupRenderEffect(
       instance,
       initialVNode,
@@ -1337,6 +1339,7 @@ function baseCreateRenderer(
             if (__DEV__) {
               startMeasure(instance, `render`)
             }
+            // 渲染组件生成子树vnode
             instance.subTree = renderComponentRoot(instance)
             if (__DEV__) {
               endMeasure(instance, `render`)
@@ -1371,7 +1374,7 @@ function baseCreateRenderer(
           if (__DEV__) {
             startMeasure(instance, `render`)
           }
-          // instance.subTree的赋值,得到VNode
+          // instance.subTree的赋值, 得到渲染组件生成子树vnode
           const subTree = (instance.subTree = renderComponentRoot(instance))
           if (__DEV__) {
             endMeasure(instance, `render`)
@@ -1379,6 +1382,7 @@ function baseCreateRenderer(
           if (__DEV__) {
             startMeasure(instance, `patch`)
           }
+          // 把子树vnode挂载到container中
           patch(
             null,
             subTree,
@@ -1391,6 +1395,7 @@ function baseCreateRenderer(
           if (__DEV__) {
             endMeasure(instance, `patch`)
           }
+          // 组件Vnode.el => 保留渲染生成的子树根DOM节点
           initialVNode.el = subTree.el
         }
         // mounted hook
@@ -1438,7 +1443,7 @@ function baseCreateRenderer(
             )
           }
         }
-        instance.isMounted = true
+        instance.isMounted = true // 组件已挂载
 
         if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
           devtoolsComponentAdded(instance)
@@ -1459,6 +1464,7 @@ function baseCreateRenderer(
 
         // Disallow component effect recursion during pre-lifecycle hooks.
         toggleRecurse(instance, false)
+        // instance.next 在哪里赋值的
         if (next) {
           next.el = vnode.el
           updateComponentPreRender(instance, next, optimized)
@@ -1486,11 +1492,12 @@ function baseCreateRenderer(
         if (__DEV__) {
           startMeasure(instance, `render`)
         }
+        // 生成渲染组件新的子树vnode
         const nextTree = renderComponentRoot(instance)
         if (__DEV__) {
           endMeasure(instance, `render`)
         }
-        const prevTree = instance.subTree
+        const prevTree = instance.subTree // 获取旧的的组件子树vnode
         instance.subTree = nextTree
 
         if (__DEV__) {

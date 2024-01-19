@@ -708,9 +708,10 @@ function setupStatefulComponent(
     }
   }
   // 0. create render proxy property access cache
-  instance.accessCache = Object.create(null)
+  instance.accessCache = Object.create(null) // 创建渲染代理的属性访问缓存
   // 1. create public instance / render proxy
   // also mark it raw so it's never observed
+  // 创建渲染上下文代理
   instance.proxy = markRaw(new Proxy(instance.ctx, PublicInstanceProxyHandlers)) // 注意instance.proxy赋值
   if (__DEV__) {
     exposePropsOnRenderContext(instance)

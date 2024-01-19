@@ -1053,6 +1053,7 @@ export function mergeOptions(
   return to
 }
 
+// 内部选项合并策略对象，不同属性不同的合并策略模式
 export const internalOptionMergeStrats: Record<string, Function> = {
   data: mergeDataFn,
   props: mergeEmitsOrPropsOptions,
