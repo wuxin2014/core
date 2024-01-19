@@ -121,6 +121,7 @@ class BaseReactiveHandler implements ProxyHandler<Target> {
 
     if (!isReadonly) {
       if (targetIsArray && hasOwn(arrayInstrumentations, key)) {
+        // 数组处理
         return Reflect.get(arrayInstrumentations, key, receiver)
       }
       if (key === 'hasOwnProperty') {
@@ -135,7 +136,7 @@ class BaseReactiveHandler implements ProxyHandler<Target> {
     }
 
     if (!isReadonly) {
-      track(target, TrackOpTypes.GET, key)
+      track(target, TrackOpTypes.GET, key) // 监听跟踪
     }
 
     if (shallow) {
@@ -170,7 +171,7 @@ class MutableReactiveHandler extends BaseReactiveHandler {
     receiver: object
   ): boolean {
     debugger
-    let oldValue = (target as any)[key]
+    let oldValue = (target as any)[key] // 获取旧值
     if (isReadonly(oldValue) && isRef(oldValue) && !isRef(value)) {
       return false
     }
@@ -195,7 +196,7 @@ class MutableReactiveHandler extends BaseReactiveHandler {
     // don't trigger if target is something up in the prototype chain of original
     if (target === toRaw(receiver)) {
       if (!hadKey) {
-        trigger(target, TriggerOpTypes.ADD, key, value)
+        trigger(target, TriggerOpTypes.ADD, key, value) // 触发通知更新
       } else if (hasChanged(value, oldValue)) {
         trigger(target, TriggerOpTypes.SET, key, value, oldValue)
       }

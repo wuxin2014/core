@@ -19,7 +19,7 @@ type KeyToDepMap = Map<any, Dep>
 const targetMap = new WeakMap<object, KeyToDepMap>()
 
 // The number of effects currently being tracked recursively.
-let effectTrackDepth = 0
+let effectTrackDepth = 0 // effect跟踪深度
 
 export let trackOpBit = 1
 

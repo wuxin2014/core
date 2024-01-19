@@ -47,6 +47,7 @@ export function trackRefValue(ref: RefBase<any>) {
         key: 'value'
       })
     } else {
+      // 注意createDep函数
       trackEffects(ref.dep || (ref.dep = createDep()))
     }
   }
@@ -54,7 +55,7 @@ export function trackRefValue(ref: RefBase<any>) {
 
 export function triggerRefValue(ref: RefBase<any>, newVal?: any) {
   ref = toRaw(ref)
-  const dep = ref.dep
+  const dep = ref.dep // 取ref.dep
   if (dep) {
     if (__DEV__) {
       triggerEffects(dep, {
@@ -142,12 +143,12 @@ class RefImpl<T> {
     value: T,
     public readonly __v_isShallow: boolean
   ) {
-    this._rawValue = __v_isShallow ? value : toRaw(value)
-    this._value = __v_isShallow ? value : toReactive(value)
+    this._rawValue = __v_isShallow ? value : toRaw(value) // 原始值
+    this._value = __v_isShallow ? value : toReactive(value) // 响应式值(前提value是对象)，否则返回的还是原始值
   }
 
   get value() {
-    trackRefValue(this) // 跟踪
+    trackRefValue(this) // 取值跟踪
     return this._value
   }
 
@@ -159,7 +160,7 @@ class RefImpl<T> {
     if (hasChanged(newVal, this._rawValue)) {
       this._rawValue = newVal
       this._value = useDirectValue ? newVal : toReactive(newVal)
-      triggerRefValue(this, newVal) // 触发
+      triggerRefValue(this, newVal) // 触发通知更新
     }
   }
 }

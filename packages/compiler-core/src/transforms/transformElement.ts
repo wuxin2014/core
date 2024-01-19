@@ -106,7 +106,7 @@ export const transformElement: NodeTransform = (node, context) => {
     let vnodeDynamicProps: VNodeCall['dynamicProps']
     let dynamicPropNames: string[] | undefined
     let vnodeDirectives: VNodeCall['directives']
-
+    // 动态组件、TELEPORT、SUSPENSE、svg、foreignObject的节点都被视作一个Block
     let shouldUseBlock =
       // dynamic component may resolve to plain elements
       isDynamicComponent ||

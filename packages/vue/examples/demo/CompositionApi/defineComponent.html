@@ -23,9 +23,20 @@
       props: {}
     }
   )
+
+  const Comp2 = Vue.defineComponent({
+    name: 'App',
+    template: '<div>子组件使用defineComponent定义-{{name}}</div>',
+    setup() {
+      const name = Vue.ref('hha')
+      return {
+        name
+      }
+    }
+  })
   Vue.createApp({
     components: {
-      Comp
+      Comp: Comp2
     },
     setup() {
       debugger

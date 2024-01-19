@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Document</title>
+  <style>
+    body {
+      font-family: Helvetica Neue, Arial, sans-serif;
+      font-size: 14px;
+      color: #444;
+    }
+    
+    .red {
+        color: red;
+    }
+  </style>
+</head>
+<body>
+<script src='../../../dist/vue.global.js'></script>
+<div id='app'></div>
+<script type="module">
+  import { renderToString } from '../../../server-renderer'
+  let { createSSRApp } = Vue
+  
+  debugger
+  const app = createSSRApp({
+    data: () => ({ msg: 'hello' }),
+    template: `<div>{{ msg }}</div>`
+  })
+
+  ;(async () => {
+    const html = await renderToString(app)
+    console.log(html)
+  })()
+  </script>
+</body>
+
+</html>
+
+
+
+

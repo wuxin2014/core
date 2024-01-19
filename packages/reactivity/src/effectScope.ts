@@ -120,6 +120,7 @@ export function effectScope(detached?: boolean) {
   return new EffectScope(detached)
 }
 
+// 记录effect的作用域
 export function recordEffectScope(
   effect: ReactiveEffect,
   scope: EffectScope | undefined = activeEffectScope
