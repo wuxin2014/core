@@ -1,6 +1,6 @@
-<script src="../../dist/vue.global.js"></script>
+<script src="../../../dist/vue.global.js"></script>
 <script type="text/x-template" id="custom-comp">
-  <div @click="handleClick">testEmit</div>
+  <div @click="handleClick">子组件中内容</div>
 </script>
 <script>
     const CustomComp = {
@@ -27,7 +27,7 @@
             console.log('子组件beforeUnmount')
         },
         unmounted() {
-            console.log('子组件beforeUnmount')
+            console.log('子组件unmounted')
         },
         methods: {
             handleClick() {
@@ -40,7 +40,7 @@
 <!-- App template (in DOM) -->
 <div id="demo">
     <div id="search">
-        <div @click="handleClick">styleText</div>
+        <h2 @click="handleClick">父组件</h2>
         <custom-comp @test-emit="handleCallback" />
     </div>
 </div>
@@ -76,7 +76,7 @@
             console.log('父组件beforeUnmount')
         },
         unmounted() {
-            console.log('父组件beforeUnmount')
+            console.log('父组件unmounted')
         },
         methods: {
             handleClick() {
@@ -87,26 +87,27 @@
             },
         }
     }).mount('#demo')
-        (function anonymous() {
-            const _Vue = Vue
-            const { createVNode: _createVNode, createElementVNode: _createElementVNode } = _Vue
 
-            const _hoisted_1 = { id: "search" }
-            const _hoisted_2 = ["onClick"]
+    // (function anonymous() {
+    //     const _Vue = Vue
+    //     const { createVNode: _createVNode, createElementVNode: _createElementVNode } = _Vue
 
-            return function render(_ctx, _cache) {
-                with (_ctx) {
-                    const { createElementVNode: _createElementVNode, resolveComponent: _resolveComponent, createVNode: _createVNode, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+    //     const _hoisted_1 = { id: "search" }
+    //     const _hoisted_2 = ["onClick"]
 
-                    const _component_custom_comp = _resolveComponent("custom-comp")
+    //     return function render(_ctx, _cache) {
+    //         with (_ctx) {
+    //             const { createElementVNode: _createElementVNode, resolveComponent: _resolveComponent, createVNode: _createVNode, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
 
-                    return (_openBlock(), _createElementBlock("div", _hoisted_1, [
-                        _createElementVNode("div", { onClick: handleClick }, "styleText", 8 /* PROPS */, _hoisted_2),
-                        _createVNode(_component_custom_comp, { onTestEmit: handleCallback }, null, 8 /* PROPS */, ["onTestEmit"])
-                    ]))
-                }
-            }
-        })
+    //             const _component_custom_comp = _resolveComponent("custom-comp")
+
+    //             return (_openBlock(), _createElementBlock("div", _hoisted_1, [
+    //                 _createElementVNode("div", { onClick: handleClick }, "styleText", 8 /* PROPS */, _hoisted_2),
+    //                 _createVNode(_component_custom_comp, { onTestEmit: handleCallback }, null, 8 /* PROPS */, ["onTestEmit"])
+    //             ]))
+    //         }
+    //     }
+    // })
 </script>
 
 <style>

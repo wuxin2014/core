@@ -246,7 +246,7 @@ export let currentBlock: VNode[] | null = null
  * disableTracking is true when creating a v-for fragment block, since a v-for
  * fragment always diffs its children.
  *
- * @private
+ * @private 
  */
 export function openBlock(disableTracking = false) {
   blockStack.push((currentBlock = disableTracking ? null : []))
@@ -298,6 +298,7 @@ function setupBlock(vnode: VNode) {
 }
 
 /**
+ * Block 是一种特殊的 VNode，它可以负责收集它内部的所有动态节点
  * @private
  */
 export function createElementBlock(
@@ -421,7 +422,7 @@ function createBaseVNode(
   type: VNodeTypes | ClassComponent | typeof NULL_DYNAMIC_COMPONENT,
   props: (Data & VNodeProps) | null = null,
   children: unknown = null,
-  patchFlag = 0,
+  patchFlag = 0, // 标记一个元素中动态的内容
   dynamicProps: string[] | null = null,
   shapeFlag = type === Fragment ? 0 : ShapeFlags.ELEMENT, // shapeFlag => 子节点的标识
   isBlockNode = false,
@@ -476,7 +477,7 @@ function createBaseVNode(
     warn(`VNode created with invalid key (NaN). VNode type:`, vnode.type)
   }
 
-  // track vnode for block tree
+  // track vnode for block tree 追踪动态节点
   if (
     isBlockTreeEnabled > 0 &&
     // avoid a block node from tracking itself
@@ -604,7 +605,7 @@ function _createVNode(
     dynamicProps,
     shapeFlag,
     isBlockNode,
-    true
+    true // needFullChildrenNormalization为true
   )
 }
 

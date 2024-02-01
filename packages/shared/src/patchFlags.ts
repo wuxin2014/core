@@ -126,18 +126,18 @@ export const enum PatchFlags {
  * dev only flag -> name mapping
  */
 export const PatchFlagNames: Record<PatchFlags, string> = {
-  [PatchFlags.TEXT]: `TEXT`,
-  [PatchFlags.CLASS]: `CLASS`,
-  [PatchFlags.STYLE]: `STYLE`,
+  [PatchFlags.TEXT]: `TEXT`, // 代表文本会变化
+  [PatchFlags.CLASS]: `CLASS`, // 代表CLASS会变化
+  [PatchFlags.STYLE]: `STYLE`, // 代表STYLE会变化
   [PatchFlags.PROPS]: `PROPS`,
-  [PatchFlags.FULL_PROPS]: `FULL_PROPS`,
+  [PatchFlags.FULL_PROPS]: `FULL_PROPS`, // 具有动态key属性，当key改变时，需要进行完整的diff
   [PatchFlags.HYDRATE_EVENTS]: `HYDRATE_EVENTS`,
-  [PatchFlags.STABLE_FRAGMENT]: `STABLE_FRAGMENT`,
+  [PatchFlags.STABLE_FRAGMENT]: `STABLE_FRAGMENT`, // 64: 默认插槽
   [PatchFlags.KEYED_FRAGMENT]: `KEYED_FRAGMENT`,
   [PatchFlags.UNKEYED_FRAGMENT]: `UNKEYED_FRAGMENT`,
-  [PatchFlags.NEED_PATCH]: `NEED_PATCH`,
+  [PatchFlags.NEED_PATCH]: `NEED_PATCH`, // 一个子节点只会进行非props比较
   [PatchFlags.DYNAMIC_SLOTS]: `DYNAMIC_SLOTS`,
   [PatchFlags.DEV_ROOT_FRAGMENT]: `DEV_ROOT_FRAGMENT`,
-  [PatchFlags.HOISTED]: `HOISTED`,
+  [PatchFlags.HOISTED]: `HOISTED`, // 静态节点
   [PatchFlags.BAIL]: `BAIL`
 }

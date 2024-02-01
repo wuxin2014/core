@@ -1,0 +1,94 @@
+<script src="../../dist/vue.global.js"></script>
+<script type="text/x-template" id="custom-comp">
+  <div style="font-size: 16px">
+    <main style="padding: 10px;">
+      <slot></slot>
+    </main>
+  </div>
+</script>
+<script>
+  const CustomComp = {
+    template: '#custom-comp',
+  }
+</script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div id="search">
+    <h1>普通插槽</h1>
+    <custom-comp>
+      <p>{{name}}</p>
+    </custom-comp>
+  </div>
+</div>
+<!-- App script -->
+<script>
+  debugger
+  Vue.createApp({
+    components: { CustomComp },
+    setup() {
+      const name = Vue.ref('Hello World!')
+      return {
+        name
+      }
+    }
+  }).mount('#demo')
+
+  // (function anonymous() {
+  //   const _Vue = Vue
+  //   const { createVNode: _createVNode, createElementVNode: _createElementVNode } = _Vue
+
+  //   const _hoisted_1 = { id: "search" }
+  //   const _hoisted_2 = /*#__PURE__*/_createElementVNode("h1", null, "普通插槽", -1 /* HOISTED */)
+
+  //   return function render(_ctx, _cache) {
+  //     with (_ctx) {
+  //       const { createElementVNode: _createElementVNode, toDisplayString: _toDisplayString, resolveComponent: _resolveComponent, withCtx: _withCtx, createVNode: _createVNode, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+
+  //       const _component_custom_comp = _resolveComponent("custom-comp")
+
+  //       return (_openBlock(), _createElementBlock("div", _hoisted_1, [
+  //         _hoisted_2,
+  //         _createVNode(_component_custom_comp, null, {
+  //           default: _withCtx(() => [
+  //             _createElementVNode("p", null, _toDisplayString(name), 1 /* TEXT */)
+  //           ]),
+  //           _: 1 /* STABLE */
+  //         })
+  //       ]))
+  //     }
+  //   }
+  // })
+
+  // 子组件渲染
+  // (function anonymous() {
+  //   const _Vue = Vue
+  //   const { createElementVNode: _createElementVNode } = _Vue
+
+  //   const _hoisted_1 = { style: {"font-size":"16px"} }
+  //   const _hoisted_2 = { style: {"padding":"10px"} }
+
+  //   return function render(_ctx, _cache) {
+  //     with (_ctx) {
+  //       const { renderSlot: _renderSlot, createElementVNode: _createElementVNode, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+
+  //       return (_openBlock(), _createElementBlock("div", _hoisted_1, [
+  //         _createElementVNode("main", _hoisted_2, [
+  //           _renderSlot($slots, "default")
+  //         ])
+  //       ]))
+  //     }
+  //   }
+  // })
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

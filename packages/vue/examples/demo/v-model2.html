@@ -62,17 +62,17 @@
 <!-- App script -->
 <script>
   debugger
-Vue.createApp({
-  components: { CustomComp, MyComp },
-  setup() {
-    const name = Vue.ref('Hello World!')
-    const title = Vue.ref('Title')
-    return {
-      name,
-      title
+  Vue.createApp({
+    components: { CustomComp, MyComp },
+    setup() {
+      const name = Vue.ref('组件上的v-model指令')
+      const title = Vue.ref('Title')
+      return {
+        name,
+        title
+      }
     }
-  }
-}).mount('#demo')
+  }).mount('#demo')
 
 // (function anonymous() {
 //   const _Vue = Vue
@@ -86,7 +86,6 @@ Vue.createApp({
 //       const _component_custom_comp = _resolveComponent("custom-comp")
 
 //       return (_openBlock(), _createElementBlock("div", _hoisted_1, [
-//         _createCommentVNode(" <h1>{{ title }}</h1>\n    <my-comp v-model:title=\"title\" /> "),
 //         _createElementVNode("h1", null, _toDisplayString(name), 1 /* TEXT */),
 //         _createVNode(_component_custom_comp, {
 //           modelValue: name,

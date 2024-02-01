@@ -66,6 +66,7 @@ export type ContextualRenderFn = {
 /**
  * Wrap a slot function to memoize current rendering instance
  * @private compiler helper
+ * 编译插槽会用这个函数， 返回了一个函数
  */
 export function withCtx(
   fn: Function,
