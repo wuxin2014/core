@@ -575,7 +575,7 @@ export function createComponentInstance(
   if (__DEV__) {
     instance.ctx = createDevRenderContext(instance)
   } else {
-    instance.ctx = { _: instance }
+    instance.ctx = { _: instance } // render函数执行，会传入instance.ctx作为第一个入参
   }
   instance.root = parent ? parent.root : instance // parent.root 在哪里赋值的
   instance.emit = emit.bind(null, instance) // 实例的emit函数的赋值， 通过bind传递第一个参数instance，注意componentEmits中emit方法

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script src="../../../dist/vue.global.js"></script>
+  <div id="app">
+    <div v-for="a in arr" :key="a" >{{a}}</div>
+  </div>
+  <script>
+    Vue.createApp({
+      data() {
+        return { 
+          arr: [1, 2, 3, 4],
+          flag: false 
+        }
+      },
+      methods: {
+        handleClick() {
+          this.isShow = !this.isShow
+        }
+      }
+    }).mount('#app')
+
+
+    // (function anonymous() {
+    //   const _Vue = Vue
+    //   return function render(_ctx, _cache) {
+    //     with (_ctx) {
+    //       const { renderList: _renderList, Fragment: _Fragment, openBlock: _openBlock, createElementBlock: _createElementBlock, toDisplayString: _toDisplayString } = _Vue
+
+    //       return (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(arr, (a) => {
+    //         return (_openBlock(), _createElementBlock("div", { key: a }, _toDisplayString(a), 1 /* TEXT */))
+    //       }), 128 /* KEYED_FRAGMENT */))
+    //     }
+    //   }
+    // })
+  </script>
+</body>
+</html>
+
+

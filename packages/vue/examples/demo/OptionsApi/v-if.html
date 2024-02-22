@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script src="../../../dist/vue.global.js"></script>
+  <div id="app">
+    <div v-if="isShow">{{ isShow }}</div>
+    <button @click="handleClick">v-if测试</button>
+  </div>
+  <script>
+    Vue.createApp({
+      data() {
+        return {
+          isShow: false
+        }
+      },
+      methods: {
+        handleClick() {
+          this.isShow = !this.isShow
+        }
+      }
+    }).mount('#app')
+
+
+    // (function anonymous() {
+    //   const _Vue = Vue
+    //   const { createElementVNode: _createElementVNode, createCommentVNode: _createCommentVNode } = _Vue
+      
+    //   const _hoisted_1 = { key: 0 }
+    //   const _hoisted_2 = ["onClick"]
+      
+    //   return function render(_ctx, _cache) {
+    //     with (_ctx) {
+    //       const { toDisplayString: _toDisplayString, openBlock: _openBlock, createElementBlock: _createElementBlock, createCommentVNode: _createCommentVNode, createElementVNode: _createElementVNode, Fragment: _Fragment } = _Vue
+      
+    //       return (_openBlock(), _createElementBlock(_Fragment, null, [
+    //         isShow
+    //           ? (_openBlock(), _createElementBlock("div", _hoisted_1, _toDisplayString(isShow), 1 /* TEXT */))
+    //           : _createCommentVNode("v-if", true),
+    //         _createElementVNode("button", { onClick: handleClick }, "v-if测试", 8 /* PROPS */, _hoisted_2)
+    //       ], 64 /* STABLE_FRAGMENT */))
+    //     }
+    //   }
+    // })
+  </script>
+</body>
+</html>

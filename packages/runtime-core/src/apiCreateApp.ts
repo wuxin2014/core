@@ -179,7 +179,7 @@ export function createAppContext(): AppContext {
       warnHandler: undefined,
       compilerOptions: {}
     },
-    mixins: [],
+    mixins: [], // 混入对象数组
     components: {},
     directives: {},
     provides: Object.create(null),
@@ -268,7 +268,7 @@ export function createAppAPI<HostElement>(
               `function.`
           )
         }
-        return app
+        return app // 返回app即可链式操作
       },
 
       mixin(mixin: ComponentOptions) {
