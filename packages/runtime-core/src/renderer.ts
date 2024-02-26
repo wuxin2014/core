@@ -465,7 +465,7 @@ function baseCreateRenderer(
         }
     }
 
-    // set ref
+    // set ref 注意点
     if (ref != null && parentComponent) {
       setRef(ref, n1 && n1.ref, parentSuspense, n2 || n1, !n2)
     }

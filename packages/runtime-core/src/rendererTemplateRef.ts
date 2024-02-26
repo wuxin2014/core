@@ -83,6 +83,7 @@ export function setRef(
     const _isRef = isRef(ref)
     if (_isString || _isRef) {
       const doSet = () => {
+        debugger
         if (rawRef.f) {
           const existing = _isString
             ? hasOwn(setupState, ref)
