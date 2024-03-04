@@ -509,7 +509,7 @@ export function normalizePropsOptions(
     return cached
   }
 
-  const raw = comp.props
+  const raw = comp.props // 组件对象上定义的props属性
   const normalized: NormalizedPropsOptions[0] = {}
   const needCastKeys: NormalizedPropsOptions[1] = []
 

@@ -1,6 +1,6 @@
 <script src="../../../dist/vue.global.js"></script>
 <script type="text/x-template" id="custom-comp">
-  <button @click="handleClick">子组件中Button按钮</button>
+  <button @click="handleClick">子组件中Button按钮{{ name }}</button>
 </script>
 <script>
   /**
@@ -12,66 +12,73 @@
    */ 
   const CustomComp = {
     template: '#custom-comp',
+    props: ['name'], // 声明传递的属性，以便setup函数的props能取到值
     emits: ['testEmit'], // 声明自定义事件
     setup(props, { emit }) {
+      console.log('子组件props===', props)
       const handleClick = () => {
-        debugger
         emit('testEmit', 'result')
       }
       return { handleClick }
     }
   }
-  </script>
+</script>
 <!-- App template (in DOM) -->
 <div id="demo">
   <div id="search">
     <div @click="handleClick">{{ callbackVal }}</div>
-    <custom-comp @test-emit="handleCallback" />
+    <custom-comp @test-emit="handleCallback" :name="name" />
   </div>
 </div>
 <!-- App script -->
 <script>
-Vue.createApp({
-  components: {
-    CustomComp
-  },
-  setup() {
-    const callbackVal = Vue.ref('haha')
-    const handleClick = () => {
-      console.log('handleClick')
-    }
-    const handleCallback = (data) => {
-      console.log('子组件事件回调===', data)
-      callbackVal.value = data
-    }
-    return {
+  const { createApp, ref } = Vue
+  createApp({
+    components: {
+      CustomComp
+    },
+    setup() {
+      const name = ref('child')
+      const callbackVal = ref('haha')
+      const handleClick = () => {
+        console.log('handleClick')
+      }
+      const handleCallback = (data) => {
+        console.log('子组件事件回调===', data)
+        callbackVal.value = data
+      }
+      return {
+        name,
         callbackVal,
         handleClick,
         handleCallback 
+      }
     }
-  }
-}).mount('#demo')
+  }).mount('#demo')
 
-// (function anonymous() {
-//   const _Vue = Vue
-//   const { createVNode: _createVNode, createElementVNode: _createElementVNode } = _Vue
+  // (function anonymous() {
+  //   const _Vue = Vue
+  //   const { createVNode: _createVNode, createElementVNode: _createElementVNode } = _Vue
 
-//   const _hoisted_1 = { id: "search" }
-//   const _hoisted_2 = ["onClick"]
+  //   const _hoisted_1 = { id: "search" }
+  //   const _hoisted_2 = ["onClick"]
 
-//   return function render(_ctx, _cache) {
-//     with (_ctx) {
-//       const { toDisplayString: _toDisplayString, createElementVNode: _createElementVNode, resolveComponent: _resolveComponent, createVNode: _createVNode, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
+  //   return function render(_ctx, _cache) {
+  //     with (_ctx) {
+  //       const { toDisplayString: _toDisplayString, createElementVNode: _createElementVNode, resolveComponent: _resolveComponent, createVNode: _createVNode, openBlock: _openBlock, createElementBlock: _createElementBlock } = _Vue
 
-//       const _component_custom_comp = _resolveComponent("custom-comp")
+  //       const _component_custom_comp = _resolveComponent("custom-comp")
 
-//       return (_openBlock(), _createElementBlock("div", _hoisted_1, [
-//         _createElementVNode("div", { onClick: handleClick }, _toDisplayString(callbackVal), 9 /* TEXT, PROPS */, _hoisted_2),
-//         _createVNode(_component_custom_comp, { onTestEmit: handleCallback }, null, 8 /* PROPS */, ["onTestEmit"]) // ["onTestEmit"] => dynamicProps
-//       ]))
-//     }
-//   }
-// })
+  //       return (_openBlock(), _createElementBlock("div", _hoisted_1, [
+  //         _createElementVNode("div", { onClick: handleClick }, _toDisplayString(callbackVal), 9 /* TEXT, PROPS */, _hoisted_2),
+  //         _createVNode(_component_custom_comp, {
+  //           onTestEmit: handleCallback,
+  //           name: name
+  //         }, null, 8 /* PROPS */, ["onTestEmit", "name"])
+  //       ]))
+  //     }
+  //   }
+  // })
 </script>
 
 <style>

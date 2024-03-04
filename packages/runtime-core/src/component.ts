@@ -520,8 +520,8 @@ export function createComponentInstance(
     directives: null, // 指令资源
 
     // resolved props and emits options
-    propsOptions: normalizePropsOptions(type, appContext),
-    emitsOptions: normalizeEmitsOptions(type, appContext),
+    propsOptions: normalizePropsOptions(type, appContext), // 取组件上的props属性，初始化propsOptions
+    emitsOptions: normalizeEmitsOptions(type, appContext), // 取组件上的emits属性，初始化emitsOptions
 
     // emit
     emit: null!, // to be set immediately
@@ -664,10 +664,10 @@ export function setupComponent(
 ) {
   isInSSRComponentSetup = isSSR
 
-  const { props, children } = instance.vnode
+  const { props, children } = instance.vnode // 从vnode中取出props,跟children
   const isStateful = isStatefulComponent(instance)
-  initProps(instance, props, isStateful, isSSR)
-  initSlots(instance, children)
+  initProps(instance, props, isStateful, isSSR) // 初始化props
+  initSlots(instance, children) // 初始化slots
 
   const setupResult = isStateful
     ? setupStatefulComponent(instance, isSSR)
@@ -1040,7 +1040,7 @@ export function createSetupContext(
         return getAttrsProxy(instance)
       },
       slots: instance.slots,
-      emit: instance.emit,
+      emit: instance.emit, // 从instance上取emit
       expose
     }
   }

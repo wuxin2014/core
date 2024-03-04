@@ -78,7 +78,7 @@ export function emit(
 ) {
   if (instance.isUnmounted) return
   // props来自instance.vnode.props
-  const props = instance.vnode.props || EMPTY_OBJ
+  const props = instance.vnode.props || EMPTY_OBJ // 实例上vnode的props的属性
 
   if (__DEV__) {
     const {
@@ -204,8 +204,8 @@ export function normalizeEmitsOptions(
   if (cached !== undefined) {
     return cached
   }
-
-  const raw = comp.emits
+  debugger
+  const raw = comp.emits // 组件对象上的emits属性
   let normalized: ObjectEmitsOptions = {}
 
   // apply mixin/extends props
