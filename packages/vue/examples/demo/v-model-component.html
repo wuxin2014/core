@@ -26,16 +26,46 @@
     }
   }
 </script>
+
+<script type="text/x-template" id="custom-comp2">
+  <input type="text" :value="modelValue" @input="emitValue" />
+</script>
+<script>
+  // v-model自定义的修饰符 capitalize == 3.4 之前的用法
+  const CustomComp2 = {
+    template: '#custom-comp2',
+    props: {
+      modelValue: String,
+      modelModifiers: { default: () => ({}) }
+    },
+    emits: ['update:modelValue'],
+    setup(props, { emit }) {
+      const emitValue = (e) => {
+        let value = e.target.value
+        if (props.modelModifiers.capitalize) {
+          value = value.charAt(0).toUpperCase() + value.slice(1)
+        }
+        emit('update:modelValue', value)
+      }
+
+      return {
+        emitValue
+      }
+    }
+  }
+</script>
+
 <script type="text/x-template" id="my-component">
   <input v-model="value" />
 </script>
 <script>
+  const { computed } = Vue
   const MyComp = {
     template: '#my-component',
     props: ['title'],
     emits: ['update:title'],
     setup(props, { emit }) {
-      const value = Vue.computed({
+      const value = computed({
         get() {
           return props.title
         },
@@ -50,23 +80,27 @@
     }
   }
 </script>
+
 <!-- App template (in DOM) -->
- <!-- <h1>{{ title }}</h1>
-    <my-comp v-model:title="title" /> -->
 <div id="demo">
   <div id="search">
     <h1>{{ name }}</h1>
-    <custom-comp v-model="name" />
+    <custom-comp v-model="name"></custom-comp>
+    <h1>{{ title }}</h1>
+    <my-comp v-model:title="title"></my-comp>
+    <h1>v-model自定义的修饰符 capitalize</h1>
+    <custom-comp2 v-model.capitalize="name"></custom-comp2>
   </div>
 </div>
 <!-- App script -->
 <script>
   debugger
-  Vue.createApp({
-    components: { CustomComp, MyComp },
+  const { createApp, ref } = Vue
+  createApp({
+    components: { CustomComp, CustomComp2, MyComp },
     setup() {
-      const name = Vue.ref('组件上的v-model指令')
-      const title = Vue.ref('Title')
+      const name = ref('v-model指令')
+      const title = ref('带参数title的v-model指令')
       return {
         name,
         title

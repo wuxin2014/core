@@ -12,18 +12,19 @@
         person.age++
       }
 
-      // watch 会明确监听某一个响应数据，而watchEffect则是隐式的监听回调函数中响应数据
+      // watch会明确监听某一个响应数据，而watchEffect则是隐式的监听回调函数中响应数据
+      // watchEffect允许我们自动跟踪 回调的响应式依赖
       const stop = Vue.watchEffect(() => {
         console.log("新的值:", person.age);
       })
 
-    //   Vue.watchPostEffect(() => {
-    //     console.log("新的值:", person.age);
-    //   })
+      // Vue.watchPostEffect(() => {
+      //   console.log("新的值:", person.age);
+      // })
 
-    //   Vue.watchSyncEffect(() => {
-    //     console.log("新的值:", person.age);
-    //   })
+      // Vue.watchSyncEffect(() => {
+      //   console.log("新的值:", person.age);
+      // })
 
       return {
         person,

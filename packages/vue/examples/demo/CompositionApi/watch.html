@@ -6,11 +6,12 @@
   <button @click="handleClick">变更年龄</button>
 </div>
 <script>
-  Vue.createApp({
+  const { createApp, reactive, ref, watch } = Vue
+  createApp({
     setup() {
       debugger
-      const person = Vue.reactive({ name: '夏末', age: 19 })
-      const ageRef = Vue.ref(null)
+      const person = reactive({ name: '夏末', age: 19 })
+      const ageRef = ref(null)
       const handleClick = () => {
         person.age++
       }
@@ -22,25 +23,33 @@
        * 一个响应式对象
        * ...或是由以上类型的值组成的数组
        * 
+       * watchEffect(cb, options) => 例如：watchEffect(callback, { flush: 'post' })
        * watchEffect() 相比，watch() 使我们可以：
        * 1. 懒执行副作用；
        * 2. 更加明确是应该由哪个状态触发侦听器重新执行；
        * 3. 可以访问所侦听状态的前一个值和当前值。
        * 
+       * watchPostEffect() // 在Vue更新后执行
+       * watchSyncEffect() // 在响应式数据变化时同步执行
+       * 
+       * options中flush: 'post', 'sync', 默认是pre
+       * flush: 'post' => 在Vue更新后执行(后置刷新)
+       * flush: 'sync' => 在响应式数据变化时同步执行
        */ 
       // 1. 函数形式，返回一个值
-      // Vue.watch(() => person.age, (newVal, oldVal) => {
+      // watch(() => person.age, (newVal, oldVal) => {
       //   console.log("DOM 节点", msgRef.value.innerHTML);
       //   console.log('==newVal, oldVal==', newVal, oldVal)
       // })
 
-      Vue.watch(() => person.age, (newVal, oldVal) => {
+      // 如果想在侦听器回调中能访问被Vue更新之后的所属组件的DOM，你需要指明 flush: 'post' 选项：
+      watch(() => person.age, (newVal, oldVal) => {
         console.log("DOM 节点", ageRef.value.innerHTML);
         console.log('==newVal, oldVal==', newVal, oldVal)
       }, { flush: 'post' })
 
       // 2.响应式对象形式
-      // Vue.watch(person, (newVal, oldVal) => {
+      // watch(person, (newVal, oldVal) => {
       //   console.log('==newVal, oldVal==', newVal, oldVal)
       // }, { deep: true })
 

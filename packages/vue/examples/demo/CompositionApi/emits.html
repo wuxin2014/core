@@ -1,0 +1,67 @@
+<script src="../../../dist/vue.global.js"></script>
+<script type="text/x-template" id="custom-comp">
+  <!-- <button @click="($event) => $emit('click', '1234')">子组件中Button按钮{{ name }}</button> -->
+  <button @click="$emit('click', '1234')">子组件中Button按钮-{{ name }}</button>
+</script>
+<script>
+  /**
+   * emits的选项(不是必要的)，其作用：
+   * 这声明了一个组件可能触发的所有事件，还可以对事件的参数进行验证
+   * 还可以让 Vue 避免将它们作为原生事件监听器隐式地应用于子组件的根元素
+   * 
+   * 如果一个原生事件的名字 (例如 click) 被定义在 emits 选项中，则监听器只会监听组件触发的click事件而不会再响应原生的click事件。
+   */ 
+  const CustomComp = {
+    template: '#custom-comp',
+    props: ['name'], // 声明传递的属性，以便setup函数的props能取到值
+    // emits: ['click'], // 声明自定义事件  跟不声明结果不一样(原生名字click不声明会走两次)
+    setup(props, { emit }) {
+      
+    }
+  }
+</script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div id="search">
+    <div @click="handleClick">{{ callbackVal }}</div>
+    <custom-comp @click="handleCallback" :name="name" />
+  </div>
+</div>
+<!-- App script -->
+<script>
+  const { createApp, ref } = Vue
+  createApp({
+    components: {
+      CustomComp
+    },
+    setup() {
+      const name = ref('child')
+      const callbackVal = ref('haha')
+      const handleClick = () => {
+        console.log('handleClick')
+      }
+      const handleCallback = (data) => {
+        console.log('父组件定义的子组件事件回调===', data)
+        callbackVal.value = data
+      }
+      return {
+        name,
+        callbackVal,
+        handleClick,
+        handleCallback 
+      }
+    }
+  }).mount('#demo')
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+    color: red;
+}
+</style>

@@ -1,0 +1,39 @@
+<script src="../../../dist/vue.global.js"></script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div id="search">
+    <ul>
+      <li v-for="item in list" ref="itemRefs">
+        {{ item }}
+      </li>
+    </ul>
+  </div>
+</div>
+<!-- App script -->
+<script>
+  const { createApp, ref, onMounted } = Vue
+  createApp({
+    setup() {
+      const list = ref([1, 2, 3, 4, 5, 6, 7, 8])
+      const itemRefs = ref([]) // ref数组并不保证与源数组相同的顺序
+
+      onMounted(() => itemRefs.value.map(item => { console.log(item) }))
+      return {
+        list,
+        itemRefs
+      }
+    }
+  }).mount('#demo')
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+  color: red;
+}
+</style>

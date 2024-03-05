@@ -1,0 +1,55 @@
+<script src="../../../dist/vue.global.js"></script>
+<script type="text/x-template" id="custom-comp">
+  <button @click="updateCount">inject注入: {{ count }}</button>
+</script>
+<script>
+  const CustomComp = {
+    template: '#custom-comp',
+    setup(props, { emit }) {
+      const { count, updateCount } = Vue.inject('counter') // inject注入
+      return {
+        count,
+        updateCount
+      }
+    }
+  }
+</script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div id="search">
+    <h1>依赖注入-Prop逐级透传问题-(provide-inject)</h1>
+    <custom-comp />
+  </div>
+</div>
+<!-- App script -->
+<script>
+  const { createApp, ref, provide } = Vue
+  createApp({
+    components: {
+      CustomComp
+    },
+    setup() {
+      const count = ref(0)
+      const updateCount = () => {
+        count.value++
+      }
+      provide(/* 注入名 */ 'message', /* 值 */ 'hello!') // provide提供
+      provide('counter', {
+        count,
+        updateCount
+      })
+    }
+  }).mount('#demo')
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+  color: red;
+}
+</style>

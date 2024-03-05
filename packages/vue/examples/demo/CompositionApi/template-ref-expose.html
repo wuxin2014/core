@@ -5,14 +5,14 @@
   </div>
 </script>
 <script>
-  const CustomComp = {
+  const Child = {
     template: '#custom-comp',
     setup(props, { expose }) {
       const count = Vue.ref(0)
       const handleClick = () => {
         count.value += 1
       }
-      expose({count})
+      // expose({ count })
       return { count, handleClick }
     }
   }
@@ -20,22 +20,24 @@
 <!-- App template (in DOM) -->
 <div id="demo">
   <button @click="handleClick">父组件-change-子组件值</button>
-  <custom-comp ref="cusRef" />
+  <child ref="childRef"></child>
 </div>
 <script>
-  Vue.createApp({
+  const { createApp, ref } = Vue
+  createApp({
     components: {
-      CustomComp
+      Child
     },
     setup() {
-      const cusRef = Vue.ref()
-      const handleClick =  () => {
-        debugger
-        cusRef.value.count = 20
+      const childRef = ref()
+      const handleClick = () => {
+        // childRef.value => child组件实例
+        console.log(childRef.value)
+        childRef.value.count = 20 // 当父组件通过模板引用获取到了该组件的实例时，得到的实例类型(ref 都会自动解包，和一般的实例一样)。
       }
      
       return {
-        cusRef,
+        childRef,
         handleClick
       }
     }
