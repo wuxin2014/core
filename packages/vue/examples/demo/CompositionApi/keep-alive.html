@@ -1,0 +1,130 @@
+<script src="../../../dist/vue.global.js"></script>
+<script type="text/x-template" id="comp-a">
+  <p>Current component: A</p>
+  <span>count: {{ count }}</span>
+  <button @click="count++">+</button>
+</script>
+
+<script type="text/x-template" id="comp-b">
+  <p>Current component: B</p>
+  <span>Message is: {{ msg }}</span>
+  <input v-model="msg" />
+</script>
+
+<script>
+  const CompA = {
+    template: '#comp-a',
+    setup(props, { emit }) {
+      const count = Vue.ref(0)
+
+      Vue.onActivated(() => {
+        console.log('CompA-onActivated')
+      })
+
+      Vue.onDeactivated(() => {
+        console.log('CompA-onDeactivated')
+      })
+
+      return {
+        count
+      }
+    }
+  }
+
+  const CompB = {
+    template: '#comp-b',
+    setup(props, { emit }) {
+      const msg = Vue.ref('')
+
+      Vue.onActivated(() => {
+        console.log('CompB-onActivated')
+      })
+
+      Vue.onDeactivated(() => {
+        console.log('CompB-onDeactivated')
+      })
+
+      return {
+        msg
+      }
+    }
+  }
+</script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <div id="search">
+    <label><input type="radio" v-model="current" :value="CompA" /> A</label>
+    <label><input type="radio" v-model="current" :value="CompB" /> B</label>
+    <keep-alive>
+      <component :is="current"></component>
+    </keep-alive>
+  </div>
+</div>
+<!-- App script -->
+<script>
+  const { createApp, shallowRef } = Vue
+  createApp({
+    components: { CompA, CompB },
+    setup() {
+      const current = shallowRef(CompA)
+      return {
+        current,
+        CompA,
+        CompB
+      }
+    }
+  }).mount('#demo')
+
+  // (function anonymous() {
+  //   const _Vue = Vue
+  //   const { createElementVNode: _createElementVNode, createTextVNode: _createTextVNode } = _Vue
+
+  //   const _hoisted_1 = { id: "search" }
+  //   const _hoisted_2 = ["onUpdate:modelValue", "value"]
+  //   const _hoisted_3 = ["onUpdate:modelValue", "value"]
+
+  //   return function render(_ctx, _cache) {
+  //     with (_ctx) {
+  //       const { vModelRadio: _vModelRadio, createElementVNode: _createElementVNode, withDirectives: _withDirectives, createTextVNode: _createTextVNode, resolveDynamicComponent: _resolveDynamicComponent, openBlock: _openBlock, createBlock: _createBlock, KeepAlive: _KeepAlive, createElementBlock: _createElementBlock } = _Vue
+
+  //       return (_openBlock(), _createElementBlock("div", _hoisted_1, [
+  //         _createElementVNode("label", null, [
+  //           _withDirectives(_createElementVNode("input", {
+  //             type: "radio",
+  //             "onUpdate:modelValue": $event => ((current) = $event),
+  //             value: CompA
+  //           }, null, 8 /* PROPS */, _hoisted_2), [
+  //             [_vModelRadio, current]
+  //           ]),
+  //           _createTextVNode(" A")
+  //         ]),
+  //         _createElementVNode("label", null, [
+  //           _withDirectives(_createElementVNode("input", {
+  //             type: "radio",
+  //             "onUpdate:modelValue": $event => ((current) = $event),
+  //             value: CompB
+  //           }, null, 8 /* PROPS */, _hoisted_3), [
+  //             [_vModelRadio, current]
+  //           ]),
+  //           _createTextVNode(" B")
+  //         ]),
+  //         (_openBlock(), _createBlock(_KeepAlive, null, [
+  //           (_openBlock(), _createBlock(_resolveDynamicComponent(current)))
+  //         ], 1024 /* DYNAMIC_SLOTS */))
+  //       ]))
+  //     }
+  //   }
+  // })
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.red {
+  color: red;
+}
+</style>
