@@ -1,0 +1,28 @@
+<script src="../../../dist/vue.global.js"></script>
+<script type="text/x-template" id="custom-comp">
+  <div><h1>测试</h1><slot>122</slot></div>
+</script>
+<script>
+  const MyComponent = {
+    template: '#custom-comp',
+  }
+</script>
+<!-- App template (in DOM) -->
+<div id="demo">
+  <my-component v-slots={{ default: () => '使用v-slots接收插槽， v-slots的用法只适用于jsx' }} />
+</div>
+<script>
+  Vue.createApp({
+    components: {
+      MyComponent
+    },
+  }).mount('#demo')
+</script>
+
+<style>
+body {
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+</style>

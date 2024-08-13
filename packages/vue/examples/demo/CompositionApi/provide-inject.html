@@ -6,6 +6,9 @@
   const CustomComp = {
     template: '#custom-comp',
     setup(props, { emit }) {
+      // 要注入上层组件提供的数据，需使用inject()函数, 默认情况下，inject 假设传入的注入名会被某个祖先链上的组件提供。
+      // 如果该注入名的确没有任何组件提供，则会抛出一个运行时警告。
+      // 如果在注入一个值时不要求必须有提供者，那么我们应该声明一个默认值。inject('message', '这是默认值')
       const { count, updateCount } = Vue.inject('counter') // inject注入
       return {
         count,
